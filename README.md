@@ -1,0 +1,1 @@
+# STX.SPAL.Core
