@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace STX.SPAL.Abstractions.Providers
 {
     public interface IAbstractionProvider<T>
-        where T : ISPALProvider
+        where T : ISPALBase
     {
         T GetProvider();
 

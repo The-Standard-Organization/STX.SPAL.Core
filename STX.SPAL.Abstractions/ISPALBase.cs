@@ -4,7 +4,7 @@
 
 namespace STX.SPAL.Abstractions
 {
-    public interface ISPALProvider
+    public interface ISPALBase
     {
         string GetSPALId();
     }
