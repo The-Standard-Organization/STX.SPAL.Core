@@ -6,8 +6,4 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\STX.SPAL.Abstractions\STX.SPAL.Abstractions.csproj" />
-  </ItemGroup>
-
 </Project>

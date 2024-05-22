@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STX.SPAL.Core.Tests.Accepta
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STX.SPAL.Core.Tests.Unit", "STX.SPAL.Core.Tests.Unit\STX.SPAL.Core.Tests.Unit.csproj", "{FB55487C-EB2D-405A-95F1-295DDE2DFE75}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "STX.SPAL.Abstractions", "STX.SPAL.Abstractions\STX.SPAL.Abstractions.csproj", "{05AECCF2-472D-424D-A36E-17541C9FF019}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "STX.SPAL.Providers.Core", "STX.SPAL.Providers.Core\STX.SPAL.Providers.Core.csproj", "{002F2D46-A7A4-4C11-9A3A-C494419EB5E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{FB55487C-EB2D-405A-95F1-295DDE2DFE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB55487C-EB2D-405A-95F1-295DDE2DFE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB55487C-EB2D-405A-95F1-295DDE2DFE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AECCF2-472D-424D-A36E-17541C9FF019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AECCF2-472D-424D-A36E-17541C9FF019}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AECCF2-472D-424D-A36E-17541C9FF019}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AECCF2-472D-424D-A36E-17541C9FF019}.Release|Any CPU.Build.0 = Release|Any CPU
+		{002F2D46-A7A4-4C11-9A3A-C494419EB5E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{002F2D46-A7A4-4C11-9A3A-C494419EB5E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{002F2D46-A7A4-4C11-9A3A-C494419EB5E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{002F2D46-A7A4-4C11-9A3A-C494419EB5E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
