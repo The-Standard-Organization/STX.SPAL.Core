@@ -48,6 +48,12 @@ namespace STX.SPAL.Core.Infrastructure.Build.Services
                 Jobs = new Dictionary<string, Job>
                 {
                     {
+                        "label",
+                        new LabelJob(
+                            runsOn: BuildMachines.UbuntuLatest,
+                            githubToken: "${{ secrets.PAT_FOR_TAGGING }}")
+                    },
+                    {
                         "build",
                         new Job
                         {
@@ -92,8 +98,7 @@ namespace STX.SPAL.Core.Infrastructure.Build.Services
                         new TagJob(
                             runsOn: BuildMachines.UbuntuLatest,
                             dependsOn: "build",
-                            projectRelativePath: "STX.SPAL.Core/" +
-                                "STX.SPAL.Core.csproj",
+                            projectRelativePath: "STX.SPAL.Core/STX.SPAL.Core.csproj",
                             githubToken: "${{ secrets.PAT_FOR_TAGGING }}",
                             branchName: branchName)
                     },
