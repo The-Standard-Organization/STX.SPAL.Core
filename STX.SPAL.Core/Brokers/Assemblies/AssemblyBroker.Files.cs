@@ -3,17 +3,12 @@
 // ----------------------------------------------------------------------------------
 
 using System.IO;
-using System.Reflection;
 
 namespace STX.SPAL.Core.Brokers.Assemblies
 {
     internal partial class AssemblyBroker
     {
-        public string[] GetApplicationAssemblies()
-        {
-            string applicationPath = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-
-            return Directory.GetFiles(applicationPath, "*.dll");
-        }
+        public string[] GetApplicationAssemblies() =>
+            Directory.GetFiles(applicationPath, "*.dll");
     }
 }
