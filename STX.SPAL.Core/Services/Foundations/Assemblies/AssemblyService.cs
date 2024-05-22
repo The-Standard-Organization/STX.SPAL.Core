@@ -16,9 +16,7 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
             this.assemblyBroker = assemblyBroker;
         }
 
-        public string[] GetApplicationPathsAssemblies()
-        {
-            throw new NotImplementedException();
-        }
+        public string[] GetApplicationPathsAssemblies() =>
+            this.assemblyBroker.GetApplicationPathsAssemblies();
     }
 }
