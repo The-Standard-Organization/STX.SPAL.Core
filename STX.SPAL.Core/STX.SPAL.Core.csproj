@@ -16,4 +16,8 @@
 		<InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="Xeption" Version="2.6.0" />
+	</ItemGroup>
+
 </Project>
