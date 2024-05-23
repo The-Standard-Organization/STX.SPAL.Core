@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using FluentAssertions;
 using Moq;
 using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
 
@@ -12,10 +13,13 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     public partial class AssemblyServiceTests
     {
         [Theory]
-        [InlineData(null)]
-        [InlineData("")]
-        [InlineData(" ")]
-        public void ShouldThrowExceptionIfInvalidAssemblyPath(string inputPathAssembly)
+        [InlineData(null, "Value is required")]
+        [InlineData("", "Value is required")]
+        [InlineData(" ", "Value is required")]
+        [InlineData("file", "Value is not a valid assembly path")]
+        public void ShouldThrowValidationExceptionIfInvalidAssemblyPath(
+            string inputPathAssembly,
+            string exceptionMessage)
         {
             // given
             Assembly randomAssembly = CreateRandomAssembly();
@@ -23,20 +27,43 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             Assembly returnedAssembly = randomAssembly;
             string randomPathAssembly = GetRandomPathAssembly();
 
+            var invalidAssemblyPathException =
+                new InvalidAssemblyPathException(
+                    message: "Invalid assembly path error occurred, fix errors and try again.");
+
+            invalidAssemblyPathException.AddData(
+                key: "assemblyPath",
+                values: exceptionMessage
+            );
+
+            var expectedAssemblyValidationException =
+                new AssemblyValidationException(
+                    message: "Assembly validation error occurred, fix errors and try again.",
+                    innerException: invalidAssemblyPathException);
+
             this.assemblyBroker
                 .Setup(broker =>
                     broker.GetAssembly(
                         It.Is<string>(actualPathAssembly =>
-                                actualPathAssembly == inputPathAssembly)));
+                            actualPathAssembly == inputPathAssembly)));
 
             // when
             Func<Assembly> getAssemblyFunction = () =>
                 this.assemblyService.GetAssembly(inputPathAssembly);
 
-            Assert.Throws<InvalidAssemblyPathException>(
-                getAssemblyFunction);
+            AssemblyValidationException actualAssemblyValidationException =
+                Assert.Throws<AssemblyValidationException>(
+                    getAssemblyFunction);
 
             //then
+            actualAssemblyValidationException.Should().BeEquivalentTo(
+                expectedAssemblyValidationException);
+
+            this.assemblyBroker
+                .Verify(broker =>
+                    broker.GetAssembly(It.IsAny<string>()),
+                Times.Never);
+
             this.assemblyBroker.VerifyNoOtherCalls();
         }
     }

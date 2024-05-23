@@ -19,7 +19,12 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
         public string[] GetApplicationPathsAssemblies() =>
             this.assemblyBroker.GetApplicationPathsAssemblies();
 
-        public Assembly GetAssembly(string fullPath) =>
-            this.assemblyBroker.GetAssembly(fullPath);
+        public Assembly GetAssembly(string assemblyPath) =>
+            TryCatch(() =>
+        {
+            ValidateAssemblyPath(assemblyPath);
+
+            return this.assemblyBroker.GetAssembly(assemblyPath);
+        });
     }
 }
