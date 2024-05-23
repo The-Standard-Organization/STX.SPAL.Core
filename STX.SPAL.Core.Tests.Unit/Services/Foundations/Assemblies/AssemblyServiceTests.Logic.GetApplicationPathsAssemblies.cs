@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Threading.Tasks;
+using FluentAssertions;
 using Moq;
 
 namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
@@ -28,10 +29,13 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 .Returns(returnedApplicationPathsAssemblies);
 
             // when
-            string[] actuaApplicationPathsAssemblies =
+            string[] actualApplicationPathsAssemblies =
                this.assemblyService.GetApplicationPathsAssemblies();
 
             //then
+            actualApplicationPathsAssemblies.Should()
+                .BeEquivalentTo(expectedApplicationPathsAssemblies);
+
             this.assemblyBroker.Verify(
                 broker =>
                     broker.GetApplicationPathsAssemblies(),
