@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Reflection;
 using STX.SPAL.Core.Brokers.Assemblies;
 
 namespace STX.SPAL.Core.Services.Foundations.Assemblies
@@ -18,5 +19,8 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
 
         public string[] GetApplicationPathsAssemblies() =>
             this.assemblyBroker.GetApplicationPathsAssemblies();
+
+        public Assembly GetAssembly(string fullPath) =>
+            throw new NotImplementedException();
     }
 }
