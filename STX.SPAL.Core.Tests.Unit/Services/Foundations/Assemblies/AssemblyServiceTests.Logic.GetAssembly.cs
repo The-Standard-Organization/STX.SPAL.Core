@@ -25,7 +25,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 .Setup(broker =>
                     broker.GetAssembly(
                         It.Is<string>(actualPathAssembly =>
-                                actualPathAssembly == inputPathAssembly)))
+                            actualPathAssembly == inputPathAssembly)))
                 .Returns(returnedAssembly);
 
             // when
@@ -40,7 +40,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                     broker.GetAssembly(
                         It.Is<string>(actualPathAssembly =>
                             actualPathAssembly == inputPathAssembly)),
-                Times.Once);
+                    Times.Once);
 
             this.assemblyBroker.VerifyNoOtherCalls();
         }

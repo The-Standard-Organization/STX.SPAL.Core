@@ -12,8 +12,7 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
     {
         private delegate Assembly ReturningAssemblyFunction();
 
-        private static Assembly TryCatch(
-            ReturningAssemblyFunction returningAssemblyFunction)
+        private static Assembly TryCatch(ReturningAssemblyFunction returningAssemblyFunction)
         {
             try
             {
@@ -27,8 +26,7 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
             }
         }
 
-        private static AssemblyValidationException CreateAssemblyValidationException(
-            Xeption exception)
+        private static AssemblyValidationException CreateAssemblyValidationException(Xeption exception)
         {
             return new AssemblyValidationException(
                 message: "Assembly validation error occurred, fix errors and try again.",

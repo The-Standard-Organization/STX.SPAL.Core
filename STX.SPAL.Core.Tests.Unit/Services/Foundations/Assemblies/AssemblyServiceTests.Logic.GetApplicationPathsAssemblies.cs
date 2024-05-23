@@ -24,8 +24,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                randomApplicationPathsAssemblies;
 
             this.assemblyBroker
-                .Setup(broker =>
-                    broker.GetApplicationPathsAssemblies())
+                .Setup(broker => broker.GetApplicationPathsAssemblies())
                 .Returns(returnedApplicationPathsAssemblies);
 
             // when

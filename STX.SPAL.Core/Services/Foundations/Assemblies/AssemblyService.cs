@@ -21,10 +21,10 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
 
         public Assembly GetAssembly(string assemblyPath) =>
             TryCatch(() =>
-        {
-            ValidateAssemblyPath(assemblyPath);
+            {
+                ValidateAssemblyPath(assemblyPath);
 
-            return this.assemblyBroker.GetAssembly(assemblyPath);
-        });
+                return this.assemblyBroker.GetAssembly(assemblyPath);
+            });
     }
 }
