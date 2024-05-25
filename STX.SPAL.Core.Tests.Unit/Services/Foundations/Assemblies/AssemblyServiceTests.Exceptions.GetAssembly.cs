@@ -101,5 +101,50 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [MemberData(nameof(AssemblyLoadServiceExceptions))]
+        public void ShouldThrowServiceExceptionOnLoadAssemblyIfExceptionOccurs(
+            Exception externalException)
+        {
+            // given
+            string someAssemblyPath = CreateRandomPathAssembly();
+
+            var assemblyLoadException =
+                new FailedAssemblyServiceException(
+                    message: "Failed service error occurred, contact support.",
+                    innerException: externalException);
+
+            var expectedAssemblyServiceException =
+                new AssemblyServiceException(
+                    message: "Assembly service error occurred, contact support.",
+                    innerException: assemblyLoadException);
+
+            this.assemblyBroker
+                .Setup(broker =>
+                    broker.GetAssembly(
+                        It.Is<string>(actualAssemblyPath =>
+                            actualAssemblyPath == someAssemblyPath)))
+                .Throws(externalException);
+
+            // when
+            Func<Assembly> getAssemblyFunction = () =>
+                this.assemblyService.GetAssembly(someAssemblyPath);
+
+            AssemblyServiceException actualAssemblyServiceException =
+                Assert.Throws<AssemblyServiceException>(
+                    getAssemblyFunction);
+
+            //then
+            actualAssemblyServiceException.Should().BeEquivalentTo(
+                expectedAssemblyServiceException);
+
+            this.assemblyBroker
+                .Verify(broker =>
+                    broker.GetAssembly(It.IsAny<string>()),
+                Times.Once);
+
+            this.assemblyBroker.VerifyNoOtherCalls();
+        }
     }
 }

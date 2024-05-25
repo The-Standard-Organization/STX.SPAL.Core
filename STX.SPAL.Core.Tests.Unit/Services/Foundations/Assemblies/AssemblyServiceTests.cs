@@ -85,5 +85,13 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 new ArgumentException()
             };
         }
+
+        public static TheoryData AssemblyLoadServiceExceptions()
+        {
+            return new TheoryData<Exception>
+            {
+                new Exception()
+            };
+        }
     }
 }
