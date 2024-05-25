@@ -13,7 +13,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     public partial class AssemblyServiceTests
     {
         [Theory]
-        [MemberData(nameof(AssemblyLoadExceptions))]
+        [MemberData(nameof(AssemblyLoadDependencyExceptions))]
         public void ShouldThrowDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
             Exception externalException)
         {
@@ -48,6 +48,51 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             //then
             actualAssemblyDependencyException.Should().BeEquivalentTo(
                 expectedAssemblyDependencyException);
+
+            this.assemblyBroker
+                .Verify(broker =>
+                    broker.GetAssembly(It.IsAny<string>()),
+                Times.Once);
+
+            this.assemblyBroker.VerifyNoOtherCalls();
+        }
+
+        [Theory]
+        [MemberData(nameof(AssemblyLoadValidationDependencyExceptions))]
+        public void ShouldThrowValidationDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
+            Exception externalException)
+        {
+            // given
+            string someAssemblyPath = CreateRandomPathAssembly();
+
+            var assemblyLoadException =
+                new AssemblyLoadException(
+                    message: "Assembly load error occurred, contact support.",
+                    innerException: externalException);
+
+            var expectedAssemblyValidationDependencyException =
+                new AssemblyValidationDependencyException(
+                    message: "Assembly dependency error occurred, contact support.",
+                    innerException: assemblyLoadException);
+
+            this.assemblyBroker
+                .Setup(broker =>
+                    broker.GetAssembly(
+                        It.Is<string>(actualAssemblyPath =>
+                            actualAssemblyPath == someAssemblyPath)))
+                .Throws(externalException);
+
+            // when
+            Func<Assembly> getAssemblyFunction = () =>
+                this.assemblyService.GetAssembly(someAssemblyPath);
+
+            AssemblyValidationDependencyException actualAssemblyValidationDependencyException =
+                Assert.Throws<AssemblyValidationDependencyException>(
+                    getAssemblyFunction);
+
+            //then
+            actualAssemblyValidationDependencyException.Should().BeEquivalentTo(
+                expectedAssemblyValidationDependencyException);
 
             this.assemblyBroker
                 .Verify(broker =>

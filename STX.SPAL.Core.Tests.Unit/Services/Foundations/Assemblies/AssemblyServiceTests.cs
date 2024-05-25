@@ -63,7 +63,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             return assemblyBuilder;
         }
 
-        public static TheoryData AssemblyLoadExceptions()
+        public static TheoryData AssemblyLoadDependencyExceptions()
         {
             return new TheoryData<Exception>
             {
@@ -75,6 +75,16 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 new NotSupportedException(),
                 new IOException(),
                 new UnauthorizedAccessException()
+            };
+        }
+
+        public static TheoryData AssemblyLoadValidationDependencyExceptions()
+        {
+            return new TheoryData<Exception>
+            {
+                new ArgumentException(),
+                new ArgumentNullException(),
+                new PathTooLongException(),
             };
         }
     }
