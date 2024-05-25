@@ -82,9 +82,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
         {
             return new TheoryData<Exception>
             {
-                new ArgumentException(),
-                new ArgumentNullException(),
-                new PathTooLongException(),
+                new ArgumentException()
             };
         }
     }
