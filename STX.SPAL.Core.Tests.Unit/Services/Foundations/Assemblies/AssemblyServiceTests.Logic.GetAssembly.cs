@@ -18,7 +18,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             Assembly randomAssembly = CreateRandomAssembly();
             Assembly expectedAssembly = randomAssembly;
             Assembly returnedAssembly = randomAssembly;
-            string randomPathAssembly = GetRandomPathAssembly();
+            string randomPathAssembly = CreateRandomPathAssembly();
             string inputPathAssembly = randomPathAssembly;
 
             this.assemblyBroker

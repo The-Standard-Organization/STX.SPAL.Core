@@ -2,10 +2,12 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Security;
 using Moq;
 using STX.SPAL.Core.Brokers.Assemblies;
 using STX.SPAL.Core.Services.Foundations.Assemblies;
@@ -32,7 +34,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
         private static int GetRandomNumber() =>
             new IntRange(min: 2, max: 10).GetValue();
 
-        private static string GetRandomPathAssembly()
+        private static string CreateRandomPathAssembly()
         {
             string randomPathName = GetRandomString();
             string randomFileName = GetRandomString();
@@ -43,7 +45,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
         private static string[] CreateRandomPathArray()
         {
             return Enumerable.Range(0, GetRandomNumber())
-                .Select(i => GetRandomPathAssembly())
+                .Select(i => CreateRandomPathAssembly())
                 .ToArray();
         }
 
@@ -59,6 +61,21 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                     AssemblyBuilderAccess.Run);
 
             return assemblyBuilder;
+        }
+
+        public static TheoryData AssemblyLoadExceptions()
+        {
+            return new TheoryData<Exception>
+            {
+                new SecurityException(),
+                new FileLoadException(),
+                new FileNotFoundException(),
+                new BadImageFormatException(),
+                new InvalidOperationException(),
+                new NotSupportedException(),
+                new IOException(),
+                new UnauthorizedAccessException()
+            };
         }
     }
 }
