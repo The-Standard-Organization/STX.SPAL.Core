@@ -75,12 +75,6 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
                 throw CreateAssemblyDependencyException(
                     unauthorizedAccessException);
             }
-
-            catch (ArgumentException argumentException)
-            {
-                throw CreateAssemblyDependencyException(
-                    argumentException);
-            }
         }
 
         private static AssemblyValidationException CreateAssemblyValidationException(Xeption exception)
@@ -99,18 +93,6 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
 
             return new AssemblyDependencyException(
                     message: "Assembly dependency error occurred, contact support.",
-                    innerException: assemblyLoadException);
-        }
-
-        private static AssemblyValidationDependencyException CreateAssemblyValidationDependencyException(Exception exception)
-        {
-            var assemblyLoadException =
-               new AssemblyLoadException(
-                   message: "Assembly load error occurred, contact support.",
-                   innerException: exception);
-
-            return new AssemblyValidationDependencyException(
-                    message: "Assembly validation dependency error occurred, contact support.",
                     innerException: assemblyLoadException);
         }
     }
