@@ -72,7 +72,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             var expectedAssemblyValidationDependencyException =
                 new AssemblyValidationDependencyException(
-                    message: "Assembly dependency error occurred, contact support.",
+                    message: "Assembly validation dependency error occurred, contact support.",
                     innerException: assemblyLoadException);
 
             this.assemblyBroker
