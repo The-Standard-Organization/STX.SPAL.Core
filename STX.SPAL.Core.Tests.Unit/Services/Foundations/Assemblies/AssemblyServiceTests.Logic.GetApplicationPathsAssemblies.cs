@@ -11,7 +11,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     public partial class AssemblyServiceTests
     {
         [Fact]
-        private async Task ShouldGetApplicationPathAssemblies()
+        private void ShouldGetApplicationPathAssemblies()
         {
             // given
             string[] randomApplicationPathsAssemblies =
