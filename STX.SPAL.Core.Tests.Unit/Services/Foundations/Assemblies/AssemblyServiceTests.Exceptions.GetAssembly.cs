@@ -14,7 +14,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     {
         [Theory]
         [MemberData(nameof(AssemblyLoadDependencyExceptions))]
-        public void ShouldThrowDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
+        private void ShouldThrowDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
             Exception externalException)
         {
             // given
@@ -59,7 +59,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
         [Theory]
         [MemberData(nameof(AssemblyLoadValidationDependencyExceptions))]
-        public void ShouldThrowValidationDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
+        private void ShouldThrowValidationDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
             Exception externalException)
         {
             // given
@@ -104,7 +104,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
         [Theory]
         [MemberData(nameof(AssemblyLoadServiceExceptions))]
-        public void ShouldThrowServiceExceptionOnLoadAssemblyIfExceptionOccurs(
+        private void ShouldThrowServiceExceptionOnLoadAssemblyIfExceptionOccurs(
             Exception externalException)
         {
             // given

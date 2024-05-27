@@ -17,7 +17,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
         [InlineData("", "Value is required")]
         [InlineData(" ", "Value is required")]
         [InlineData("file", "Value is not a valid assembly path")]
-        public void ShouldThrowValidationExceptionIfInvalidAssemblyPath(
+        private void ShouldThrowValidationExceptionIfInvalidAssemblyPath(
             string assemblyPath,
             string exceptionMessage)
         {
