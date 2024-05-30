@@ -1,4 +1,4 @@
-![SPAL.Core](https://raw.githubusercontent.com/The-Standard-Organization/STX.SPAL.Core/main/Resources/Images/spalcore-gitlogo.png)
+![SPAL.Core](https://raw.githubusercontent.com/The-Standard-Organization/STX.SPAL.Core/main/STX.SPAL.Core/Resources/Images/spalcore-gitlogo.png)
 
 # STX.SPAL.Core
 
@@ -27,12 +27,13 @@ SPAL.Core should provide the following features:
 >
 >`External Mockability (Cloud-Foreign)` - Standardized provider libraries must allow communications with mocked local phantom APIs.
 
-
 #### For further information, please refer to this section of the [The-Standard](https://github.com/hassanhabib/The-Standard/blob/master/1.%20Brokers/1.8%20Broker%20Provider%20Abstraction.md)
 
 ### Engineering Architecture(InProgress)
 
-![Current Engineering](https://raw.githubusercontent.com/The-Standard-Organization/STX.SPAL.Core/main/Resources/Diagrams/spal-diagram-05292024.png)
+![Current Engineering Overview](https://github.com/The-Standard-Organization/STX.SPAL.Core/blob/main/STX.SPAL.Core/Resources/Diagrams/spal-diagram-ovtab-05302024.png)
+
+![Current Engineering Overview](https://github.com/The-Standard-Organization/STX.SPAL.Core/blob/main/STX.SPAL.Core/Resources/Diagrams/spal-diagram-coretab-05302024.png)
 
 ## Standard-Compliance
 This library was built according to The Standard. The library follows engineering principles, patterns and tooling as recommended by The Standard.
@@ -79,6 +80,6 @@ A special thanks to all the community members, and the following dedicated engin
 >
 >Mr. Christo du Toit
 >
->Mr. Raul LBoullosa
+>Mr. Raúl Lorenzo Boullosa
 >
 >Mr. Gregory Hays
