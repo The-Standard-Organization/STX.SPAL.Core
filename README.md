@@ -1,4 +1,4 @@
-![SPAL.Core](https://raw.githubusercontent.com/The-Standard-Organization/STX.SPAL.Core/main/Resources/Images/spalcore-gitlogo.png)
+![SPAL.Core](https://github.com/The-Standard-Organization/STX.SPAL.Core/blob/main/STX.SPAL.Core/Resources/Images/spalcore-gitlogo.png)
 
 # STX.SPAL.Core
 
@@ -32,7 +32,7 @@ SPAL.Core should provide the following features:
 
 ### Engineering Architecture(InProgress)
 
-![Current Engineering](https://raw.githubusercontent.com/The-Standard-Organization/STX.SPAL.Core/main/Resources/Diagrams/spal-diagram-05292024.png)
+![Current Engineering](https://github.com/The-Standard-Organization/STX.SPAL.Core/blob/main/STX.SPAL.Core/Resources/Diagrams/spal-diagram-05292024.png)
 
 ## Standard-Compliance
 This library was built according to The Standard. The library follows engineering principles, patterns and tooling as recommended by The Standard.
