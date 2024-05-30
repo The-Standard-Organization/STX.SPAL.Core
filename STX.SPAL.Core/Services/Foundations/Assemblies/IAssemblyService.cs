@@ -4,9 +4,9 @@
 
 using System.Reflection;
 
-namespace STX.SPAL.Core.Brokers.Assemblies
+namespace STX.SPAL.Core.Services.Foundations.Assemblies
 {
-    internal partial interface IAssemblyBroker
+    internal interface IAssemblyService
     {
         string[] GetApplicationPathsAssemblies();
         Assembly GetAssembly(string fullPath);

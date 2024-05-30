@@ -2,13 +2,13 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
-using System.Reflection;
+using Xeptions;
 
-namespace STX.SPAL.Core.Brokers.Assemblies
+namespace STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions
 {
-    internal partial interface IAssemblyBroker
+    internal class InvalidAssemblyPathException : Xeption
     {
-        string[] GetApplicationPathsAssemblies();
-        Assembly GetAssembly(string fullPath);
+        public InvalidAssemblyPathException(string message) : base(message)
+        { }
     }
 }
