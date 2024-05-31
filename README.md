@@ -74,12 +74,16 @@ If you have any suggestions, comments or questions, please feel free to contact 
 >[Standard Provider Abstraction Libraries Part 3](https://www.youtube.com/watch?v=98_9I2hpaKA&t=623s)
 >
 
-### Important Notice
+### Important Notice and Acknowledgements
 A special thanks to all the community members, and the following dedicated engineers for their hard work and dedication to the project.
 >Mr. Hassan Habib
 >
 >Mr. Christo du Toit
 >
 >Mr. Raúl Lorenzo Boullosa
+>
+>Mr. Paul Wardy
+>
+>Mr. Kenneth Swan
 >
 >Mr. Gregory Hays
