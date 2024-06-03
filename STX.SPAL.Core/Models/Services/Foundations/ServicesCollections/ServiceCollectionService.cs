@@ -22,7 +22,11 @@ namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
             Type implementationType,
             ServiceLifetime serviceLifetime)
         {
-            throw new System.NotImplementedException();
+            ServiceDescriptor serviceDescriptor =
+                new ServiceDescriptor(spalInterfaceType, implementationType, serviceLifetime);
+
+            IServiceCollection serviceCollection = dependencyInjectionBroker.RegisterServiceDescriptor(serviceDescriptor);
+            return serviceCollection;
         }
     }
 }

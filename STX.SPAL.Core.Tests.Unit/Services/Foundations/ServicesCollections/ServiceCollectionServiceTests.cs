@@ -3,8 +3,10 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using STX.SPAL.Abstractions;
@@ -17,11 +19,13 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
     public partial class ServiceCollectionServiceTests
     {
         private readonly Mock<IDependencyInjectionBroker> dependencyInjectionBroker;
+        private readonly ICompareLogic compareLogic;
         private readonly IServiceCollectionService serviceCollectionService;
 
         public ServiceCollectionServiceTests()
         {
             this.dependencyInjectionBroker = new Mock<IDependencyInjectionBroker>();
+            this.compareLogic = new CompareLogic();
 
             this.serviceCollectionService =
                 new ServiceCollectionService(dependencyInjectionBroker.Object);
@@ -110,12 +114,29 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                 ServiceDescriptor =
                     new ServiceDescriptor(
                         randomSpalInterfaceType,
+                        randomImplementationType,
+                        randomServiceLifeTime),
+
+                ServiceDescriptorWithSpalId =
+                    new ServiceDescriptor(
+                        randomSpalInterfaceType,
                         randomSpalId,
                         randomImplementationType,
                         randomServiceLifeTime),
 
                 ServiceCollection = new ServiceCollection()
             };
+        }
+
+        private Expression<Func<ServiceDescriptor, bool>> SameServiceDescriptorAs(
+            ServiceDescriptor actualServiceDescriptor,
+            ServiceDescriptor expectedServiceDescriptor)
+        {
+            return actualServiceDescriptor =>
+                this.compareLogic.Compare(
+                    expectedServiceDescriptor,
+                    actualServiceDescriptor)
+                        .AreEqual;
         }
     }
 }

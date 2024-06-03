@@ -4,6 +4,7 @@
 
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
 
 namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
@@ -19,16 +20,23 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             ServiceDescriptor randomServiceDescriptor = randomProperties.ServiceDescriptor;
             ServiceDescriptor inputServiceDescriptor = randomServiceDescriptor;
+            ServiceDescriptor expectedServiceDescriptor = inputServiceDescriptor;
 
             IServiceCollection randomServiceCollection = randomProperties.ServiceCollection;
             IServiceCollection expectedServiceCollection = randomServiceCollection;
             IServiceCollection returnedServiceCollection = randomServiceCollection;
 
+            expectedServiceCollection.Add(inputServiceDescriptor);
+
             this.dependencyInjectionBroker
                 .Setup(broker =>
                     broker.RegisterServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
-                            actualServiceDescriptor == inputServiceDescriptor)))
+                            SameServiceDescriptorAs(
+                                actualServiceDescriptor,
+                                expectedServiceDescriptor)
+                            .Compile()
+                            .Invoke(actualServiceDescriptor))))
                 .Returns(returnedServiceCollection);
 
             // when
@@ -45,7 +53,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                 broker =>
                     broker.RegisterServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
-                            actualServiceDescriptor == inputServiceDescriptor)),
+                            SameServiceDescriptorAs(
+                                actualServiceDescriptor,
+                                expectedServiceDescriptor)
+                            .Compile()
+                            .Invoke(actualServiceDescriptor))),
                     Times.Once);
 
             this.dependencyInjectionBroker.VerifyNoOtherCalls();
