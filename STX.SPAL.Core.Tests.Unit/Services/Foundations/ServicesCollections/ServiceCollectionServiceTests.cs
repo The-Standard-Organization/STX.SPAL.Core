@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using STX.SPAL.Abstractions;
 using STX.SPAL.Core.Brokers.DependenciesInjection;
-using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections;
+using STX.SPAL.Core.Services.Foundations.ServicesCollections;
 using Tynamix.ObjectFiller;
 
 namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections

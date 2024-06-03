@@ -6,7 +6,7 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using STX.SPAL.Core.Brokers.DependenciesInjection;
 
-namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
+namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
 {
     internal partial class ServiceCollectionService : IServiceCollectionService
     {
@@ -25,7 +25,7 @@ namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
             ServiceDescriptor serviceDescriptor =
                 new ServiceDescriptor(spalInterfaceType, implementationType, serviceLifetime);
 
-            return dependencyInjectionBroker.RegisterServiceDescriptor(serviceDescriptor);
+            return dependencyInjectionBroker.InjectServiceDescriptor(serviceDescriptor);
         }
 
         public IServiceCollection RegisterServiceDescriptor(
@@ -37,7 +37,7 @@ namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
             ServiceDescriptor serviceDescriptor =
                new ServiceDescriptor(spalInterfaceType, spalId, implementationType, serviceLifetime);
 
-            return dependencyInjectionBroker.RegisterServiceDescriptor(serviceDescriptor);
+            return dependencyInjectionBroker.InjectServiceDescriptor(serviceDescriptor);
         }
     }
 }

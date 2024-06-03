@@ -5,7 +5,7 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
+namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
 {
     internal partial interface IServiceCollectionService
     {

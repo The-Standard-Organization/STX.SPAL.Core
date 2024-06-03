@@ -29,7 +29,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.RegisterServiceDescriptor(
+                    broker.InjectServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
@@ -46,11 +46,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                    inputProperties.ServiceLifeTime);
 
             //then
-            actualServiceCollection.Should().BeSameAs(expectedServiceCollection);
+            actualServiceCollection.Should().BeEquivalentTo(expectedServiceCollection);
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.RegisterServiceDescriptor(
+                    broker.InjectServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
@@ -81,7 +81,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.RegisterServiceDescriptor(
+                    broker.InjectServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
@@ -99,11 +99,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                    inputProperties.ServiceLifeTime);
 
             //then
-            actualServiceCollection.Should().BeSameAs(expectedServiceCollection);
+            actualServiceCollection.Should().BeEquivalentTo(expectedServiceCollection);
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.RegisterServiceDescriptor(
+                    broker.InjectServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
