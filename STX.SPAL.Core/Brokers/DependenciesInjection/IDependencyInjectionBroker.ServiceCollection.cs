@@ -6,8 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace STX.SPAL.Core.Brokers.DependenciesInjection
 {
-    internal partial interface IDependencyInjection
+    internal partial interface IDependencyInjectionBroker
     {
-        void RegisterServiceDescriptor(ServiceDescriptor serviceDescriptor);
+        IServiceCollection RegisterServiceDescriptor(ServiceDescriptor serviceDescriptor);
     }
 }

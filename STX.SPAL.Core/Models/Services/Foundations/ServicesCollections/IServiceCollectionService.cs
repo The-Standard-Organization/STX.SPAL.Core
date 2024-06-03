@@ -2,14 +2,16 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
+using System;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace STX.SPAL.Core.Brokers.DependenciesInjection
+namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
 {
-    internal partial class DependencyInjectionBroker
+    internal partial interface IServiceCollectionService
     {
-        public IServiceCollection RegisterServiceDescriptor(ServiceDescriptor serviceDescriptor) =>
-            serviceCollection.Add(serviceDescriptor);
+        IServiceCollection RegisterServiceDescriptor(
+            Type spalInterfaceType,
+            Type implementationType,
+            ServiceLifetime serviceLifetime);
     }
 }

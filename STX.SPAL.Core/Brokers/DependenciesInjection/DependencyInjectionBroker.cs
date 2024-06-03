@@ -8,11 +8,11 @@ namespace STX.SPAL.Core.Brokers.DependenciesInjection
 {
     internal partial class DependencyInjectionBroker : IDependencyInjectionBroker
     {
-        private readonly ServiceCollection serviceColllection;
+        private readonly ServiceCollection serviceCollection;
 
         public DependencyInjectionBroker()
         {
-            serviceColllection = new ServiceCollection();
+            serviceCollection = new ServiceCollection();
         }
     }
 }

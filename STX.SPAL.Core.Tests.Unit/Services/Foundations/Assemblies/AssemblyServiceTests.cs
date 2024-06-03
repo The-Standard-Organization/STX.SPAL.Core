@@ -52,8 +52,9 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
         private static Assembly CreateRandomAssembly()
         {
             string randomAssemblyName = GetRandomString();
+
             var assemblyName =
-                new AssemblyName("randomAssemblyName");
+                new AssemblyName(randomAssemblyName);
 
             AssemblyBuilder assemblyBuilder =
                 AssemblyBuilder.DefineDynamicAssembly(
