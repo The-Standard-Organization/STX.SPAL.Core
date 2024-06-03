@@ -27,5 +27,14 @@ namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
 
             return dependencyInjectionBroker.RegisterServiceDescriptor(serviceDescriptor);
         }
+
+        public IServiceCollection RegisterServiceDescriptor(
+            Type spalInterfaceType,
+            string spalId,
+            Type implementationType,
+            ServiceLifetime serviceLifetime)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

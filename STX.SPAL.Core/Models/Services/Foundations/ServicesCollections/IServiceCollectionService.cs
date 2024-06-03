@@ -13,5 +13,11 @@ namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections
             Type spalInterfaceType,
             Type implementationType,
             ServiceLifetime serviceLifetime);
+
+        IServiceCollection RegisterServiceDescriptor(
+            Type spalInterfaceType,
+            string spalId,
+            Type implementationType,
+            ServiceLifetime serviceLifetime);
     }
 }
