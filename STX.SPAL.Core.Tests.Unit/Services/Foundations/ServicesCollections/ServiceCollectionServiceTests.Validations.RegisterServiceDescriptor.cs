@@ -54,5 +54,48 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
             this.dependencyInjectionBroker.VerifyNoOtherCalls();
         }
 
+        [Theory]
+        [MemberData(nameof(RegisterServiceDescriptorWithSpalIdValidationExceptions))]
+        private void ShouldThrowValidationExceptionIfInvalidParametersWhenUsingSpalId(
+            Type spalInterfaceType,
+            string spalId,
+            Type implementationType,
+            Xeption exception)
+        {
+            // given
+            var expectedServiceCollectionValidationException =
+                new ServiceCollectionValidationException(
+                    message: "Service Collection validation error occurred, fix errors and try again.",
+                    innerException: exception);
+
+            this.dependencyInjectionBroker
+                .Setup(broker =>
+                    broker.AddServiceDescriptor(
+                        It.IsAny<ServiceDescriptor>()));
+
+            // when
+            Func<IServiceCollection> registerServiceDescriptorFunction = () =>
+                this.serviceCollectionService.RegisterServiceDescriptor(
+                    spalInterfaceType,
+                    spalId,
+                    implementationType,
+                    ServiceLifetime.Singleton);
+
+            ServiceCollectionValidationException actualServiceCollectionValidationException =
+                Assert.Throws<ServiceCollectionValidationException>(
+                    registerServiceDescriptorFunction);
+
+            //then
+            actualServiceCollectionValidationException.Should().BeEquivalentTo(
+                expectedServiceCollectionValidationException);
+
+            this.dependencyInjectionBroker
+                .Verify(broker =>
+                    broker.AddServiceDescriptor(It.IsAny<ServiceDescriptor>()),
+                Times.Never);
+
+            this.dependencyInjectionBroker.VerifyNoOtherCalls();
+        }
+
     }
 }
