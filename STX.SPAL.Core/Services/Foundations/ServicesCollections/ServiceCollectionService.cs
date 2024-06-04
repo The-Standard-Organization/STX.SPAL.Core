@@ -25,7 +25,7 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
             ServiceDescriptor serviceDescriptor =
                 new ServiceDescriptor(spalInterfaceType, implementationType, serviceLifetime);
 
-            return dependencyInjectionBroker.InjectServiceDescriptor(serviceDescriptor);
+            return dependencyInjectionBroker.AddServiceDescriptor(serviceDescriptor);
         }
 
         public IServiceCollection RegisterServiceDescriptor(
@@ -37,7 +37,7 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
             ServiceDescriptor serviceDescriptor =
                new ServiceDescriptor(spalInterfaceType, spalId, implementationType, serviceLifetime);
 
-            return dependencyInjectionBroker.InjectServiceDescriptor(serviceDescriptor);
+            return dependencyInjectionBroker.AddServiceDescriptor(serviceDescriptor);
         }
     }
 }
