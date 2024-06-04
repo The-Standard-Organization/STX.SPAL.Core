@@ -138,5 +138,13 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                     actualServiceDescriptor)
                         .AreEqual;
         }
+
+        public static TheoryData RegisterServiceDescriptorValidationExceptions()
+        {
+            return new TheoryData<Type, Type, string>
+            {
+                { null, null, "" }
+            };
+        }
     }
 }
