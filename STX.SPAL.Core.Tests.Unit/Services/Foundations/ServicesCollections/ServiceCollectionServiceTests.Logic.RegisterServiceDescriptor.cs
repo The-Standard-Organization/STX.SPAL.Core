@@ -29,7 +29,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.InjectServiceDescriptor(
+                    broker.AddServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
@@ -50,7 +50,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.InjectServiceDescriptor(
+                    broker.AddServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
@@ -81,7 +81,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.InjectServiceDescriptor(
+                    broker.AddServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
@@ -103,7 +103,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.InjectServiceDescriptor(
+                    broker.AddServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
                                 actualServiceDescriptor,
