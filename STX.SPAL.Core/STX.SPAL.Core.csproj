@@ -22,7 +22,6 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Services\Foundations\ServicesCollections\Exceptions\" />
     <Folder Include="Resources\Diagrams\" />
     <Folder Include="Resources\Images\" />
   </ItemGroup>

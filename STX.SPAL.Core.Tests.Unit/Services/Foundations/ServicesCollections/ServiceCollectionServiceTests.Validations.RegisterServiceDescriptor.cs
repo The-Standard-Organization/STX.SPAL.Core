@@ -6,6 +6,8 @@ using System;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
+using Xeptions;
 
 namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 {
@@ -16,53 +18,38 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
         private void ShouldThrowValidationExceptionIfInvalidParameters(
             Type spalInterfaceType,
             Type implementationType,
-            string exceptionMessage)
+            Xeption exception)
         {
             // given
-            dynamic randomProperties = CreateRandomProperties();
-            dynamic inputProperties = randomProperties;
-
-            ServiceDescriptor randomServiceDescriptor = randomProperties.ServiceDescriptor;
-            ServiceDescriptor inputServiceDescriptor = randomServiceDescriptor;
-            ServiceDescriptor expectedServiceDescriptor = inputServiceDescriptor;
-
-            IServiceCollection randomServiceCollection = randomProperties.ServiceCollection;
-            IServiceCollection expectedServiceCollection = randomServiceCollection;
-            IServiceCollection returnedServiceCollection = randomServiceCollection;
-
-            expectedServiceCollection.Add(inputServiceDescriptor);
+            var expectedServiceCollectionValidationException =
+                new ServiceCollectionValidationException(
+                    message: "Service Collection validation error occurred, fix errors and try again.",
+                    innerException: exception);
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
                     broker.AddServiceDescriptor(
-                        It.Is<ServiceDescriptor>(actualServiceDescriptor =>
-                            SameServiceDescriptorAs(
-                                actualServiceDescriptor,
-                                expectedServiceDescriptor)
-                            .Compile()
-                            .Invoke(actualServiceDescriptor))))
-                .Returns(returnedServiceCollection);
+                        It.IsAny<ServiceDescriptor>()));
 
             // when
-            IServiceCollection actualServiceCollection =
-               this.serviceCollectionService.RegisterServiceDescriptor(
-                   spalInterfaceType,
-                   implementationType,
-                   ServiceLifetime.Singleton);
+            Func<IServiceCollection> registerServiceDescriptorFunction = () =>
+                this.serviceCollectionService.RegisterServiceDescriptor(
+                    spalInterfaceType,
+                    implementationType,
+                    ServiceLifetime.Singleton);
+
+            ServiceCollectionValidationException actualServiceCollectionValidationException =
+                Assert.Throws<ServiceCollectionValidationException>(
+                    registerServiceDescriptorFunction);
 
             //then
-            actualServiceCollection.Should().BeEquivalentTo(expectedServiceCollection);
+            actualServiceCollectionValidationException.Should().BeEquivalentTo(
+                expectedServiceCollectionValidationException);
 
-            this.dependencyInjectionBroker.Verify(
-                broker =>
-                    broker.AddServiceDescriptor(
-                        It.Is<ServiceDescriptor>(actualServiceDescriptor =>
-                            SameServiceDescriptorAs(
-                                actualServiceDescriptor,
-                                expectedServiceDescriptor)
-                            .Compile()
-                            .Invoke(actualServiceDescriptor))),
-                    Times.Once);
+            this.dependencyInjectionBroker
+                .Verify(broker =>
+                    broker.AddServiceDescriptor(It.IsAny<ServiceDescriptor>()),
+                Times.Never);
 
             this.dependencyInjectionBroker.VerifyNoOtherCalls();
         }

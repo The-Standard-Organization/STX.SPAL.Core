@@ -3,16 +3,22 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using Newtonsoft.Json.Linq;
 using STX.SPAL.Abstractions;
 using STX.SPAL.Core.Brokers.DependenciesInjection;
+using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
 using STX.SPAL.Core.Services.Foundations.ServicesCollections;
 using Tynamix.ObjectFiller;
+using Xeptions;
 
 namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 {
@@ -139,11 +145,61 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                         .AreEqual;
         }
 
+        private static Xeption CreateInvalidServiceDescriptorParameterException(
+            IDictionary<string, string> parameters)
+        {
+            var invalidServiceDescriptorParameterException =
+                new InvalidServiceDescriptorParameterException(
+                    message: "Invalid service descriptor parameter error occurred, fix errors and try again.");
+
+            parameters
+                .Select(parameter =>
+                {
+                    invalidServiceDescriptorParameterException.UpsertDataList(
+                        key: parameter.Key,
+                        value: parameter.Value);
+
+                    return invalidServiceDescriptorParameterException;
+                })
+                .ToArray();
+
+            return invalidServiceDescriptorParameterException;
+        }
+
         public static TheoryData RegisterServiceDescriptorValidationExceptions()
         {
-            return new TheoryData<Type, Type, string>
+            return new TheoryData<Type, Type, Xeption>
             {
-                { null, null, "" }
+                {
+                    CreateRandomSpalInterfaceType(),
+                    null,
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "implementationType", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    CreateRandomImplementationType(),
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "spalInterfaceType", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    null,
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "spalInterfaceType", "Value is required" },
+                            { "implementationType", "Value is required" }
+                        })
+                },
             };
         }
     }

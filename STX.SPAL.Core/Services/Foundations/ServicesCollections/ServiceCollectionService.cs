@@ -20,13 +20,16 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
         public IServiceCollection RegisterServiceDescriptor(
             Type spalInterfaceType,
             Type implementationType,
-            ServiceLifetime serviceLifetime)
+            ServiceLifetime serviceLifetime) =>
+        TryCatch(() =>
         {
+            ValidateServiceDescriptorTypes(spalInterfaceType, implementationType);
+
             ServiceDescriptor serviceDescriptor =
                 new ServiceDescriptor(spalInterfaceType, implementationType, serviceLifetime);
 
             return dependencyInjectionBroker.AddServiceDescriptor(serviceDescriptor);
-        }
+        });
 
         public IServiceCollection RegisterServiceDescriptor(
             Type spalInterfaceType,
