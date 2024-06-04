@@ -277,6 +277,82 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                             { "spalId", "Value is required" }
                         })
                 },
+
+                {
+                    CreateRandomSpalInterfaceType(),
+                    "",
+                    null,
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "implementationType", "Value is required" },
+                            { "spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    "",
+                    CreateRandomImplementationType(),
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "spalInterfaceType", "Value is required" },
+                            { "spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    "",
+                    null,
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "spalInterfaceType", "Value is required" },
+                            { "implementationType", "Value is required" },
+                            { "spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    CreateRandomSpalInterfaceType(),
+                    " ",
+                    null,
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "implementationType", "Value is required" },
+                            { "spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    " ",
+                    CreateRandomImplementationType(),
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "spalInterfaceType", "Value is required" },
+                            { "spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    " ",
+                    null,
+                    CreateInvalidServiceDescriptorParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { "spalInterfaceType", "Value is required" },
+                            { "implementationType", "Value is required" },
+                            { "spalId", "Value is required" }
+                        })
+                },
+
+
             };
         }
     }

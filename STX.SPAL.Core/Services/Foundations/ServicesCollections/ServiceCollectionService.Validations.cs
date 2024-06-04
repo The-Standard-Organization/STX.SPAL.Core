@@ -15,6 +15,12 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
             Message = "Value is required"
         };
 
+        private static dynamic IsInvalid(string @string) => new
+        {
+            Condition = string.IsNullOrWhiteSpace(@string),
+            Message = "Value is required"
+        };
+
         private static void Validate(params (dynamic Rule, string Parameter)[] validations)
         {
             var invalidServiceDescriptorParameterException =
@@ -38,6 +44,17 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
         {
             Validate(
                 (Rule: IsInvalidType(spalInterfaceType), Parameter: nameof(spalInterfaceType)),
+                (Rule: IsInvalidType(implementationType), Parameter: nameof(implementationType)));
+        }
+
+        private static void ValidateServiceDescriptorTypesWithSpalId(
+            Type spalInterfaceType,
+            string spalId,
+            Type implementationType)
+        {
+            Validate(
+                (Rule: IsInvalidType(spalInterfaceType), Parameter: nameof(spalInterfaceType)),
+                (Rule: IsInvalid(spalId), Parameter: nameof(spalId)),
                 (Rule: IsInvalidType(implementationType), Parameter: nameof(implementationType)));
         }
     }

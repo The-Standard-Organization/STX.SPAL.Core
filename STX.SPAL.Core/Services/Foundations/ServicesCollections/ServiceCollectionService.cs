@@ -35,12 +35,15 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
             Type spalInterfaceType,
             string spalId,
             Type implementationType,
-            ServiceLifetime serviceLifetime)
+            ServiceLifetime serviceLifetime) =>
+        TryCatch(() =>
         {
+            ValidateServiceDescriptorTypesWithSpalId(spalInterfaceType, spalId, implementationType);
+
             ServiceDescriptor serviceDescriptor =
                new ServiceDescriptor(spalInterfaceType, spalId, implementationType, serviceLifetime);
 
             return dependencyInjectionBroker.AddServiceDescriptor(serviceDescriptor);
-        }
+        });
     }
 }
