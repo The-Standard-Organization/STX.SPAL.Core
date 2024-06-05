@@ -351,8 +351,14 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                             { "spalId", "Value is required" }
                         })
                 },
+            };
+        }
 
-
+        public static TheoryData RegisterServiceDescriptorValidationDependencyExceptions()
+        {
+            return new TheoryData<Exception>
+            {
+                new ArgumentException()
             };
         }
     }
