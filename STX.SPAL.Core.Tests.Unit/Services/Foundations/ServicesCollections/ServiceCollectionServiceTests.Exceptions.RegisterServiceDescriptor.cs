@@ -3,9 +3,11 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Reflection;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
+using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
 using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
 
 namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
@@ -56,6 +58,59 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
             //then
             actualServiceCollectionValidationDependencyException.Should().BeEquivalentTo(
                 expectedServiceCollectionValidationDependencyException);
+
+            this.dependencyInjectionBroker
+                .Verify(broker =>
+                    broker.AddServiceDescriptor(It.IsAny<ServiceDescriptor>()),
+                Times.Once);
+
+            this.dependencyInjectionBroker.VerifyNoOtherCalls();
+        }
+
+        [Theory]
+        [MemberData(nameof(RegisterServiceDescriptorServiceExceptions))]
+        private void ShouldThrowServiceExceptionOnRegisterServiceDescriptorIfExceptionOccurs(
+            Exception externalException)
+        {
+            // given
+            dynamic randomProperties = CreateRandomProperties();
+            ServiceDescriptor someServiceDescriptor = randomProperties.ServiceDescriptor;
+
+            var assemblyLoadException =
+                new FailedServiceCollectionServiceException(
+                    message: "Failed service error occurred, contact support.",
+                    innerException: externalException);
+
+            var expectedServiceCollectionServiceException =
+                new ServiceCollectionServiceException(
+                    message: "ServiceCollection service error occurred, contact support.",
+                    innerException: assemblyLoadException);
+
+            this.dependencyInjectionBroker
+                .Setup(broker =>
+                    broker.AddServiceDescriptor(
+                        It.Is<ServiceDescriptor>(actualServiceDescriptor =>
+                            SameServiceDescriptorAs(
+                                actualServiceDescriptor,
+                                someServiceDescriptor)
+                            .Compile()
+                            .Invoke(actualServiceDescriptor))))
+                .Throws(externalException);
+
+            // when
+            Func<IServiceCollection> registerServiceDescriptorFunction = () =>
+                this.serviceCollectionService.RegisterServiceDescriptor(
+                    randomProperties.SpalInterfaceType,
+                    randomProperties.ImplementationType,
+                    randomProperties.ServiceLifeTime);
+
+            ServiceCollectionServiceException actualServiceCollectionServiceException =
+                Assert.Throws<ServiceCollectionServiceException>(
+                    registerServiceDescriptorFunction);
+
+            //then
+            actualServiceCollectionServiceException.Should().BeEquivalentTo(
+                expectedServiceCollectionServiceException);
 
             this.dependencyInjectionBroker
                 .Verify(broker =>

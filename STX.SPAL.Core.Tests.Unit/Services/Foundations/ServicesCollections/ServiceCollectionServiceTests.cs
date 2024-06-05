@@ -361,5 +361,13 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                 new ArgumentException()
             };
         }
+
+        public static TheoryData RegisterServiceDescriptorServiceExceptions()
+        {
+            return new TheoryData<Exception>
+            {
+                new Exception()
+            };
+        }
     }
 }
