@@ -166,7 +166,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
             return invalidServiceDescriptorParameterException;
         }
 
-        public static TheoryData RegisterServiceDescriptorValidationExceptions()
+        public static TheoryData<Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
         {
             return new TheoryData<Type, Type, Xeption>
             {
@@ -203,7 +203,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
             };
         }
 
-        public static TheoryData RegisterServiceDescriptorWithSpalIdValidationExceptions()
+        public static TheoryData<Type, string, Type, Xeption> RegisterServiceDescriptorWithSpalIdValidationExceptions()
         {
             return new TheoryData<Type, string, Type, Xeption>
             {
@@ -354,7 +354,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
             };
         }
 
-        public static TheoryData RegisterServiceDescriptorValidationDependencyExceptions()
+        public static TheoryData<Exception> RegisterServiceDescriptorValidationDependencyExceptions()
         {
             return new TheoryData<Exception>
             {
@@ -362,7 +362,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
             };
         }
 
-        public static TheoryData RegisterServiceDescriptorServiceExceptions()
+        public static TheoryData<Exception> RegisterServiceDescriptorServiceExceptions()
         {
             return new TheoryData<Exception>
             {

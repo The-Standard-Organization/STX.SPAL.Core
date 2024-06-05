@@ -64,7 +64,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             return assemblyBuilder;
         }
 
-        public static TheoryData AssemblyLoadDependencyExceptions()
+        public static TheoryData<Exception> AssemblyLoadDependencyExceptions()
         {
             return new TheoryData<Exception>
             {
@@ -79,7 +79,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             };
         }
 
-        public static TheoryData AssemblyLoadValidationDependencyExceptions()
+        public static TheoryData<Exception> AssemblyLoadValidationDependencyExceptions()
         {
             return new TheoryData<Exception>
             {
@@ -87,7 +87,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             };
         }
 
-        public static TheoryData AssemblyLoadServiceExceptions()
+        public static TheoryData<Exception> AssemblyLoadServiceExceptions()
         {
             return new TheoryData<Exception>
             {
