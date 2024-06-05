@@ -35,7 +35,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                 .Setup(broker =>
                     broker.AddServiceDescriptor(
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
-                            actualServiceDescriptor == someServiceDescriptor)))
+                            SameServiceDescriptorAs(
+                                actualServiceDescriptor,
+                                someServiceDescriptor)
+                            .Compile()
+                            .Invoke(actualServiceDescriptor))))
                 .Throws(externalException);
 
             // when
