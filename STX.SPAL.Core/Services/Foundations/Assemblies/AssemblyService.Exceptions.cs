@@ -107,7 +107,8 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
                     innerException: assemblyLoadException);
         }
 
-        private static AssemblyValidationDependencyException CreateAssemblyValidationDependencyException(Exception exception)
+        private static AssemblyValidationDependencyException
+            CreateAssemblyValidationDependencyException(Exception exception)
         {
             var assemblyLoadException =
                new AssemblyLoadException(

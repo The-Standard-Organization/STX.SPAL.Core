@@ -49,8 +49,8 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
                 innerException: exception);
         }
 
-        private static ServiceCollectionValidationDependencyException CreateServiceCollectionValidationDependencyException(
-            Exception exception)
+        private static ServiceCollectionValidationDependencyException
+            CreateServiceCollectionValidationDependencyException(Exception exception)
         {
             var addServiceDescriptorException =
                new AddServiceDescriptorException(
@@ -62,7 +62,8 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
                     innerException: addServiceDescriptorException);
         }
 
-        private static ServiceCollectionServiceException CreateServiceCollectionServiceException(Exception exception)
+        private static ServiceCollectionServiceException CreateServiceCollectionServiceException(
+            Exception exception)
         {
             var failedServiceCollectionServiceException =
                new FailedServiceCollectionServiceException(
