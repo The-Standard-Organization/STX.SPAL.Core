@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
 using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
 using Xeptions;
 
@@ -32,6 +33,12 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
                 throw CreateServiceCollectionValidationDependencyException(
                     argumentException);
             }
+
+            catch (Exception exception)
+            {
+                throw CreateServiceCollectionServiceException(
+                    exception);
+            }
         }
 
         private static ServiceCollectionValidationException CreateServiceCollectionValidationException(
@@ -52,6 +59,18 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
             return new ServiceCollectionValidationDependencyException(
                     message: "Service collection validation dependency error occurred, contact support.",
                     innerException: assemblyLoadException);
+        }
+
+        private static ServiceCollectionServiceException CreateServiceCollectionServiceException(Exception exception)
+        {
+            var failedServiceCollectionServiceException =
+               new FailedServiceCollectionServiceException(
+                   message: "Failed service error occurred, contact support.",
+                   innerException: exception);
+
+            return new ServiceCollectionServiceException(
+                    message: "ServiceCollection service error occurred, contact support.",
+                    innerException: failedServiceCollectionServiceException);
         }
     }
 }
