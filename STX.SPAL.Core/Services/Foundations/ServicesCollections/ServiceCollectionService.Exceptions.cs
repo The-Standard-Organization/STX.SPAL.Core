@@ -49,16 +49,17 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
                 innerException: exception);
         }
 
-        private static ServiceCollectionValidationDependencyException CreateServiceCollectionValidationDependencyException(Exception exception)
+        private static ServiceCollectionValidationDependencyException CreateServiceCollectionValidationDependencyException(
+            Exception exception)
         {
-            var assemblyLoadException =
+            var addServiceDescriptorException =
                new AddServiceDescriptorException(
                    message: "Add service descriptor error occurred, contact support.",
                    innerException: exception);
 
             return new ServiceCollectionValidationDependencyException(
                     message: "Service collection validation dependency error occurred, contact support.",
-                    innerException: assemblyLoadException);
+                    innerException: addServiceDescriptorException);
         }
 
         private static ServiceCollectionServiceException CreateServiceCollectionServiceException(Exception exception)

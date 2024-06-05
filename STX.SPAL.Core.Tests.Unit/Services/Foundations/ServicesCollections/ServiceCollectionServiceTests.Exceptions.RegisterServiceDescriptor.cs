@@ -3,11 +3,9 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using System.Reflection;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
 using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
 
 namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
