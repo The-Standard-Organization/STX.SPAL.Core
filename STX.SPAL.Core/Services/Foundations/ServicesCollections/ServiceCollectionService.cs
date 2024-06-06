@@ -12,10 +12,8 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
     {
         private readonly IDependencyInjectionBroker dependencyInjectionBroker;
 
-        public ServiceCollectionService(IDependencyInjectionBroker dependencyInjectionBroker)
-        {
+        public ServiceCollectionService(IDependencyInjectionBroker dependencyInjectionBroker) =>
             this.dependencyInjectionBroker = dependencyInjectionBroker;
-        }
 
         public IServiceCollection RegisterServiceDescriptor(
             Type spalInterfaceType,

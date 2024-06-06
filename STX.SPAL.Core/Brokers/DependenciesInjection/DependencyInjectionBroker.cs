@@ -10,9 +10,7 @@ namespace STX.SPAL.Core.Brokers.DependenciesInjection
     {
         private readonly ServiceCollection serviceCollection;
 
-        public DependencyInjectionBroker()
-        {
+        public DependencyInjectionBroker() =>
             serviceCollection = new ServiceCollection();
-        }
     }
 }
