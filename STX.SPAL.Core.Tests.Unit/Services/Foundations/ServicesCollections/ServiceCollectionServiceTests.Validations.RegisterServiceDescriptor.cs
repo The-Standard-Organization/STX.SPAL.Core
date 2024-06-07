@@ -96,6 +96,5 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
 
             this.dependencyInjectionBroker.VerifyNoOtherCalls();
         }
-
     }
 }
