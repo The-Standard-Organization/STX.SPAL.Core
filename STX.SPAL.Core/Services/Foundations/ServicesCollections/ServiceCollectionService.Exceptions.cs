@@ -30,14 +30,24 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
 
             catch (ArgumentException argumentException)
             {
+                var addServiceDescriptorException =
+                    new AddServiceDescriptorException(
+                        message: "Add service descriptor error occurred, contact support.",
+                        innerException: argumentException);
+
                 throw CreateServiceCollectionValidationDependencyException(
-                    argumentException);
+                    addServiceDescriptorException);
             }
 
             catch (Exception exception)
             {
+                var failedServiceCollectionServiceException =
+                    new FailedServiceCollectionServiceException(
+                        message: "Failed service error occurred, contact support.",
+                        innerException: exception);
+
                 throw CreateServiceCollectionServiceException(
-                    exception);
+                    failedServiceCollectionServiceException);
             }
         }
 
@@ -50,29 +60,19 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
         }
 
         private static ServiceCollectionValidationDependencyException
-            CreateServiceCollectionValidationDependencyException(Exception exception)
+            CreateServiceCollectionValidationDependencyException(Xeption exception)
         {
-            var addServiceDescriptorException =
-               new AddServiceDescriptorException(
-                   message: "Add service descriptor error occurred, contact support.",
-                   innerException: exception);
-
             return new ServiceCollectionValidationDependencyException(
-                    message: "Service collection validation dependency error occurred, contact support.",
-                    innerException: addServiceDescriptorException);
+                message: "Service collection validation dependency error occurred, contact support.",
+                innerException: exception);
         }
 
         private static ServiceCollectionServiceException CreateServiceCollectionServiceException(
-            Exception exception)
+            Xeption exception)
         {
-            var failedServiceCollectionServiceException =
-               new FailedServiceCollectionServiceException(
-                   message: "Failed service error occurred, contact support.",
-                   innerException: exception);
-
             return new ServiceCollectionServiceException(
-                    message: "ServiceCollection service error occurred, contact support.",
-                    innerException: failedServiceCollectionServiceException);
+                message: "ServiceCollection service error occurred, contact support.",
+                innerException: exception);
         }
     }
 }
