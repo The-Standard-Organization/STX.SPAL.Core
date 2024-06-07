@@ -11,10 +11,8 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
     {
         private readonly IAssemblyBroker assemblyBroker;
 
-        public AssemblyService(IAssemblyBroker assemblyBroker)
-        {
+        public AssemblyService(IAssemblyBroker assemblyBroker) =>
             this.assemblyBroker = assemblyBroker;
-        }
 
         public string[] GetApplicationPathsAssemblies() =>
             this.assemblyBroker.GetApplicationPathsAssemblies();

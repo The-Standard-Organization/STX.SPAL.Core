@@ -2,12 +2,13 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
-using Microsoft.Extensions.DependencyInjection;
+using Xeptions;
 
-namespace STX.SPAL.Core.Brokers.DependenciesInjection
+namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions
 {
-    internal partial interface IDependencyInjectionBroker
+    internal class InvalidServiceDescriptorParameterException : Xeption
     {
-        IServiceCollection AddServiceDescriptor(ServiceDescriptor serviceDescriptor);
+        public InvalidServiceDescriptorParameterException(string message) : base(message)
+        { }
     }
 }

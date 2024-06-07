@@ -9,7 +9,7 @@ namespace STX.SPAL.Core.Brokers.DependenciesInjection
 {
     internal partial class DependencyInjectionBroker
     {
-        public void RegisterServiceDescriptor(ServiceDescriptor serviceDescriptor) =>
-            serviceColllection.Add(serviceDescriptor);
+        public IServiceCollection AddServiceDescriptor(ServiceDescriptor serviceDescriptor) =>
+            serviceCollection.Add(serviceDescriptor);
     }
 }

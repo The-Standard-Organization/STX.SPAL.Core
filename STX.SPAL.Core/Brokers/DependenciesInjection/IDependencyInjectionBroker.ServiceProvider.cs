@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace STX.SPAL.Core.Brokers.DependenciesInjection
 {
-    internal partial interface IDependencyInjection
+    internal partial interface IDependencyInjectionBroker
     {
         IServiceProvider BuildServiceProvider();
         T ResolveImplementation<T>(ServiceProvider serviceProvider);
