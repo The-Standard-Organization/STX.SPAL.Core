@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-05-30T19:24:14.394Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.4.8 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="G4Lz_jjUovEtIel1xo-q" version="24.4.8" type="device" pages="3">
+<mxfile host="Electron" modified="2024-06-07T20:52:10.560Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.5.1 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="vaNf4FV9nzbyqeMzJNMs" version="24.5.1" type="device" pages="3">
   <diagram id="_34yG7JxggFBg-us8gTY" name="Overview">
     <mxGraphModel dx="1812" dy="1898" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
@@ -38,7 +38,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="ao3lsTlHmkKDLX4MAcdh" name="STX.SPAL.Core">
-    <mxGraphModel dx="1250" dy="1309" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+    <mxGraphModel dx="1812" dy="1898" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -80,7 +80,7 @@
         <mxCell id="F207dJWPYcIDguOuoq3Q-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="F207dJWPYcIDguOuoq3Q-13" target="F207dJWPYcIDguOuoq3Q-20" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="F207dJWPYcIDguOuoq3Q-13" value="Service Provider&lt;br&gt;Foundation&lt;br&gt;Service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="F207dJWPYcIDguOuoq3Q-13" value="Service Provider&lt;br&gt;Foundation&lt;br&gt;Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fa6800;fontColor=#000000;strokeColor=#C73500;" parent="1" vertex="1">
           <mxGeometry x="690" y="465" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="F207dJWPYcIDguOuoq3Q-14" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="F207dJWPYcIDguOuoq3Q-15" target="F207dJWPYcIDguOuoq3Q-13" edge="1">
@@ -92,7 +92,7 @@
         <mxCell id="F207dJWPYcIDguOuoq3Q-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="F207dJWPYcIDguOuoq3Q-17" target="F207dJWPYcIDguOuoq3Q-20" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="F207dJWPYcIDguOuoq3Q-17" value="Service Collection&lt;br&gt;Foundation&lt;br&gt;Service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="F207dJWPYcIDguOuoq3Q-17" value="Service Collection&lt;br&gt;Foundation&lt;br&gt;Service" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
           <mxGeometry x="690" y="395" width="110" height="60" as="geometry" />
         </mxCell>
         <mxCell id="F207dJWPYcIDguOuoq3Q-18" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="F207dJWPYcIDguOuoq3Q-19" target="F207dJWPYcIDguOuoq3Q-17" edge="1">
@@ -101,7 +101,7 @@
         <mxCell id="F207dJWPYcIDguOuoq3Q-19" value="Service Collection&lt;br&gt;Processing&lt;br&gt;Service" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
           <mxGeometry x="510" y="395" width="100" height="60" as="geometry" />
         </mxCell>
-        <mxCell id="F207dJWPYcIDguOuoq3Q-20" value="Dependency&lt;br&gt;Injection&lt;br&gt;Broker" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+        <mxCell id="F207dJWPYcIDguOuoq3Q-20" value="Dependency&lt;br&gt;Injection&lt;br&gt;Broker" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#60a917;fontColor=#ffffff;strokeColor=#2D7600;" parent="1" vertex="1">
           <mxGeometry x="910" y="425" width="100" height="60" as="geometry" />
         </mxCell>
       </root>
