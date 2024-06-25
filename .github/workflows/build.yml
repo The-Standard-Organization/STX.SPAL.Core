@@ -36,11 +36,6 @@ jobs:
         github-token: ${{ secrets.PAT_FOR_TAGGING }}
         script: >2
         
-          if (!context.payload.pull_request) {
-            console.log('Not a pull request, skipping label script routine');
-            return;
-          }
-
           const prefixes = [
             'INFRA:',
             'PROVISIONS:',
