@@ -30,61 +30,111 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
 
             catch (SecurityException securityException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: securityException);
+
                 throw CreateAssemblyDependencyException(
-                    securityException);
+                    assemblyLoadException);
             }
 
             catch (FileLoadException fileLoadException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: fileLoadException);
+
                 throw CreateAssemblyDependencyException(
-                    fileLoadException);
+                    assemblyLoadException);
             }
 
             catch (FileNotFoundException fileNotFoundException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: fileNotFoundException);
+
                 throw CreateAssemblyDependencyException(
-                    fileNotFoundException);
+                    assemblyLoadException);
             }
 
             catch (BadImageFormatException badImageFormatException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: badImageFormatException);
+
                 throw CreateAssemblyDependencyException(
-                    badImageFormatException);
+                    assemblyLoadException);
             }
 
             catch (InvalidOperationException invalidOperationException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: invalidOperationException);
+
                 throw CreateAssemblyDependencyException(
-                    invalidOperationException);
+                    assemblyLoadException);
             }
 
             catch (NotSupportedException notSupportedException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: notSupportedException);
+
                 throw CreateAssemblyDependencyException(
-                    notSupportedException);
+                    assemblyLoadException);
             }
 
             catch (IOException iOException)
             {
-                throw CreateAssemblyDependencyException(iOException);
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: iOException);
+
+                throw CreateAssemblyDependencyException(assemblyLoadException);
             }
 
             catch (UnauthorizedAccessException unauthorizedAccessException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: unauthorizedAccessException);
+
                 throw CreateAssemblyDependencyException(
-                    unauthorizedAccessException);
+                    assemblyLoadException);
             }
 
             catch (ArgumentException argumentException)
             {
+                var assemblyLoadException =
+                    new AssemblyLoadException(
+                        message: "Assembly load error occurred, contact support.",
+                        innerException: argumentException);
+
                 throw CreateAssemblyValidationDependencyException(
-                    argumentException);
+                    assemblyLoadException);
             }
 
             catch (Exception exception)
             {
+                var failedAssemblyServiceException =
+                    new FailedAssemblyServiceException(
+                        message: "Failed service error occurred, contact support.",
+                        innerException: exception);
+
                 throw CreateAssemblyServiceException(
-                    exception);
+                    failedAssemblyServiceException);
             }
         }
 
@@ -95,41 +145,26 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
                 innerException: exception);
         }
 
-        private static AssemblyDependencyException CreateAssemblyDependencyException(Exception exception)
+        private static AssemblyDependencyException CreateAssemblyDependencyException(Xeption exception)
         {
-            var assemblyLoadException =
-               new AssemblyLoadException(
-                   message: "Assembly load error occurred, contact support.",
-                   innerException: exception);
-
             return new AssemblyDependencyException(
-                    message: "Assembly dependency error occurred, contact support.",
-                    innerException: assemblyLoadException);
+                message: "Assembly dependency error occurred, contact support.",
+                innerException: exception);
         }
 
         private static AssemblyValidationDependencyException
-            CreateAssemblyValidationDependencyException(Exception exception)
+            CreateAssemblyValidationDependencyException(Xeption exception)
         {
-            var assemblyLoadException =
-               new AssemblyLoadException(
-                   message: "Assembly load error occurred, contact support.",
-                   innerException: exception);
-
             return new AssemblyValidationDependencyException(
-                    message: "Assembly validation dependency error occurred, contact support.",
-                    innerException: assemblyLoadException);
+                message: "Assembly validation dependency error occurred, contact support.",
+                innerException: exception);
         }
 
-        private static AssemblyServiceException CreateAssemblyServiceException(Exception exception)
+        private static AssemblyServiceException CreateAssemblyServiceException(Xeption exception)
         {
-            var failedAssemblyServiceException =
-               new FailedAssemblyServiceException(
-                   message: "Failed service error occurred, contact support.",
-                   innerException: exception);
-
             return new AssemblyServiceException(
-                    message: "Assembly service error occurred, contact support.",
-                    innerException: failedAssemblyServiceException);
+                message: "Assembly service error occurred, contact support.",
+                innerException: exception);
         }
     }
 }
