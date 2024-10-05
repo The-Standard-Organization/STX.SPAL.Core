@@ -2,14 +2,15 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
+using System;
 using Xeptions;
 
-namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions
+namespace STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions
 {
-    internal class ServiceCollectionServiceException : Xeption
+    internal class AddServiceDescriptorException : Xeption
     {
-        public ServiceCollectionServiceException(string message, Xeption innerException)
-            : base(message, innerException)
+        public AddServiceDescriptorException(string message, Exception innerException)
+            : base(message: message, innerException)
         { }
     }
 }

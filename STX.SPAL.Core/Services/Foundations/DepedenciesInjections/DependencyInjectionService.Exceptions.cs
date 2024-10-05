@@ -3,28 +3,27 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using Microsoft.Extensions.DependencyInjection;
-using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
-using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions;
 using Xeptions;
 
-namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
+namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 {
-    internal partial class ServiceCollectionService
+    internal partial class DependencyInjectionService
     {
-        private delegate IServiceCollection ReturningServiceCollectionFunction();
+        private delegate DependencyInjection ReturningDependencyInjectionFunction();
 
-        private static IServiceCollection TryCatch(
-            ReturningServiceCollectionFunction returningServiceCollectionFunction)
+        private static DependencyInjection TryCatch(
+            ReturningDependencyInjectionFunction returningDependencyInjectionFunction)
         {
             try
             {
-                return returningServiceCollectionFunction();
+                return returningDependencyInjectionFunction();
             }
 
             catch (InvalidServiceDescriptorParameterException invalidServiceDescriptorParameterException)
             {
-                throw CreateServiceCollectionValidationException(
+                throw CreateDependencyInjectionValidationException(
                     invalidServiceDescriptorParameterException);
             }
 
@@ -35,42 +34,42 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
                         message: "Add service descriptor error occurred, contact support.",
                         innerException: argumentException);
 
-                throw CreateServiceCollectionValidationDependencyException(
+                throw CreateDependencyInjectionValidationDependencyException(
                     addServiceDescriptorException);
             }
 
             catch (Exception exception)
             {
                 var failedServiceCollectionServiceException =
-                    new FailedServiceCollectionServiceException(
+                    new FailedDependencyInjectionServiceException(
                         message: "Failed service error occurred, contact support.",
                         innerException: exception);
 
-                throw CreateServiceCollectionServiceException(
+                throw CreateDependencyInjectionServiceException(
                     failedServiceCollectionServiceException);
             }
         }
 
-        private static ServiceCollectionValidationException CreateServiceCollectionValidationException(
+        private static DependencyInjectionValidationException CreateDependencyInjectionValidationException(
             Xeption exception)
         {
-            return new ServiceCollectionValidationException(
+            return new DependencyInjectionValidationException(
                 message: "Service Collection validation error occurred, fix errors and try again.",
                 innerException: exception);
         }
 
-        private static ServiceCollectionValidationDependencyException
-            CreateServiceCollectionValidationDependencyException(Xeption exception)
+        private static DependencyInjectionValidationDependencyException
+            CreateDependencyInjectionValidationDependencyException(Xeption exception)
         {
-            return new ServiceCollectionValidationDependencyException(
+            return new DependencyInjectionValidationDependencyException(
                 message: "Service collection validation dependency error occurred, contact support.",
                 innerException: exception);
         }
 
-        private static ServiceCollectionServiceException CreateServiceCollectionServiceException(
+        private static DependencyInjectionServiceException CreateDependencyInjectionServiceException(
             Xeption exception)
         {
-            return new ServiceCollectionServiceException(
+            return new DependencyInjectionServiceException(
                 message: "ServiceCollection service error occurred, contact support.",
                 innerException: exception);
         }

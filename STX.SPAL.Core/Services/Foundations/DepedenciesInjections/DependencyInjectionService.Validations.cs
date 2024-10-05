@@ -3,11 +3,11 @@
 // ----------------------------------------------------------------------------------
 
 using System;
-using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions;
 
-namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
+namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 {
-    internal partial class ServiceCollectionService
+    internal partial class DependencyInjectionService
     {
         private static dynamic IsInvalidType(Type type) => new
         {

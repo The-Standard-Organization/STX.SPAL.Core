@@ -5,11 +5,11 @@
 using System;
 using Xeptions;
 
-namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions
+namespace STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions
 {
-    internal class FailedServiceCollectionServiceException : Xeption
+    internal class FailedDependencyInjectionServiceException : Xeption
     {
-        public FailedServiceCollectionServiceException(string message, Exception innerException)
+        public FailedDependencyInjectionServiceException(string message, Exception innerException)
             : base(message, innerException)
         { }
     }

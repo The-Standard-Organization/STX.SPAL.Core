@@ -4,17 +4,20 @@
 
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
 
-namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
+namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 {
-    internal partial interface IServiceCollectionService
+    internal partial interface IDependencyInjectionService
     {
-        IServiceCollection RegisterServiceDescriptor(
+        DependencyInjection RegisterServiceDescriptor(
+            DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             Type implementationType,
             ServiceLifetime serviceLifetime);
 
-        IServiceCollection RegisterServiceDescriptor(
+        DependencyInjection RegisterServiceDescriptor(
+            DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             string spalId,
             Type implementationType,

@@ -4,11 +4,11 @@
 
 using Xeptions;
 
-namespace STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions
+namespace STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions
 {
-    public class ServiceCollectionValidationException : Xeption
+    public class DependencyInjectionValidationException : Xeption
     {
-        public ServiceCollectionValidationException(string message, Xeption innerException)
+        public DependencyInjectionValidationException(string message, Xeption innerException)
             : base(message, innerException)
         { }
     }
