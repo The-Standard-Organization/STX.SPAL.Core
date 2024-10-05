@@ -232,11 +232,26 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             return invalidDependencyInjectionParameterException;
         }
 
-        public static TheoryData<Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
+        public static TheoryData<DependencyInjection, Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
         {
-            return new TheoryData<Type, Type, Xeption>
+            dynamic randomProperties = CreateRandomProperties();
+            DependencyInjection someDependencyInjection = randomProperties.DependencyInjection;
+
+            return new TheoryData<DependencyInjection, Type, Type, Xeption>
             {
                 {
+                    null,
+                    null,
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     null,
                     CreateInvalidServiceDescriptorParameterException(
@@ -247,6 +262,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     CreateRandomImplementationType(),
                     CreateInvalidServiceDescriptorParameterException(
@@ -257,6 +273,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     null,
                     CreateInvalidServiceDescriptorParameterException(
