@@ -81,7 +81,9 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 
         public T GetService<T>(DependencyInjection dependencyInjection, string spalId)
         {
-            throw new NotImplementedException();
+            return dependencyInjectionBroker.GetService<T>(
+                dependencyInjection.ServiceProvider,
+                spalId);
         }
     }
 }

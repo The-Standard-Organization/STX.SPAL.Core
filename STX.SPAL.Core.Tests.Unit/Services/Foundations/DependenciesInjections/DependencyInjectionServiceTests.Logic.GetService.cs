@@ -118,7 +118,8 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                                 actualServiceProvider,
                                 expectedDependencyInjection.ServiceProvider)
                             .Compile()
-                            .Invoke(inputDependencyInjection.ServiceProvider))))
+                            .Invoke(inputDependencyInjection.ServiceProvider)),
+                        It.IsAny<string>()))
                 .Returns(returnedService);
 
             // when
@@ -138,7 +139,8 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                                 actualServiceProvider,
                                 expectedDependencyInjection.ServiceProvider)
                             .Compile()
-                            .Invoke(inputDependencyInjection.ServiceProvider))),
+                            .Invoke(inputDependencyInjection.ServiceProvider)),
+                        It.IsAny<string>()),
                     Times.Once);
 
             this.dependencyInjectionBroker.VerifyNoOtherCalls();
