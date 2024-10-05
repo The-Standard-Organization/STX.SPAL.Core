@@ -33,7 +33,7 @@ SPAL.Core should provide the following features:
 
 ![Current Engineering Overview](https://github.com/The-Standard-Organization/STX.SPAL.Core/blob/main/STX.SPAL.Core/Resources/Diagrams/spal-diagram-ovtab-05302024.png)
 
-![Current Engineering Status](https://github.com/The-Standard-Organization/STX.SPAL.Core/blob/main/STX.SPAL.Core/Resources/Diagrams/spal-diagram-coretab-06072024.png)
+![Current Engineering Status](https://github.com/The-Standard-Organization/STX.SPAL.Core/blob/main/STX.SPAL.Core/Resources/Diagrams/spal-diagram-coretab-05102024.png)
 
 ## Standard-Compliance
 This library was built according to The Standard. The library follows engineering principles, patterns and tooling as recommended by The Standard.
