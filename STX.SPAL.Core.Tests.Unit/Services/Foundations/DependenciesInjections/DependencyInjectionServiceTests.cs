@@ -190,13 +190,46 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             return invalidServiceDescriptorParameterException;
         }
 
-        private static Xeption CreateInvalidServiceCollectionParameterException()
+        private static Xeption CreateInvalidServiceCollectionParameterException(
+            IDictionary<string, string> parameters)
         {
             var invalidServiceCollectionParameterException =
                 new InvalidServiceCollectionParameterException(
                     message: "Invalid service collection parameter error occurred, fix errors and try again.");
 
+            parameters
+                .Select(parameter =>
+                {
+                    invalidServiceCollectionParameterException.UpsertDataList(
+                        key: parameter.Key,
+                        value: parameter.Value);
+
+                    return invalidServiceCollectionParameterException;
+                })
+                .ToArray();
+
             return invalidServiceCollectionParameterException;
+        }
+
+        private static Xeption CreateInvalidDependencyInjectionParameterException(
+            IDictionary<string, string> parameters)
+        {
+            var invalidDependencyInjectionParameterException =
+                new InvalidDependencyInjectionParameterException(
+                    message: "Invalid dependency injection parameter error occurred, fix errors and try again.");
+
+            parameters
+                .Select(parameter =>
+                {
+                    invalidDependencyInjectionParameterException.UpsertDataList(
+                        key: parameter.Key,
+                        value: parameter.Value);
+
+                    return invalidDependencyInjectionParameterException;
+                })
+                .ToArray();
+
+            return invalidDependencyInjectionParameterException;
         }
 
         public static TheoryData<Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
@@ -403,11 +436,27 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             };
         }
 
-        public static TheoryData<Xeption> BuildServiceProviderValidationExceptions()
+        public static TheoryData<DependencyInjection, Xeption> BuildServiceProviderValidationExceptions()
         {
-            return new TheoryData<Xeption>
+            return new TheoryData<DependencyInjection, Xeption>
             {
-                CreateInvalidServiceCollectionParameterException()
+                {
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+
+                },
+                {
+                    new DependencyInjection(),
+                    CreateInvalidServiceCollectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceCollection), "object is required" }
+                        })
+                },
             };
         }
     }

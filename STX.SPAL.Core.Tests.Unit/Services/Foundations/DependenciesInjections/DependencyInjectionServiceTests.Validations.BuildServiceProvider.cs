@@ -17,12 +17,9 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
         [Theory]
         [MemberData(nameof(BuildServiceProviderValidationExceptions))]
         private void ShouldThrowValidationExceptionIfInvalidParametersOnBuildServiceProvider(
+            DependencyInjection someDependencyInjection,
             Xeption exception)
         {
-            dynamic randomProperties = CreateRandomProperties();
-            DependencyInjection someDependencyInjection =
-                new DependencyInjection();
-
             // given
             var expectedDependencyInjectionValidationException =
                 new DependencyInjectionValidationException(

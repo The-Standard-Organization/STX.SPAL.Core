@@ -27,7 +27,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             // given
             var expectedServiceCollectionValidationException =
                 new DependencyInjectionValidationException(
-                    message: "Service Collection validation error occurred, fix errors and try again.",
+                    message: "Dependency Injection validation error occurred, fix errors and try again.",
                     innerException: exception);
 
             this.dependencyInjectionBroker
@@ -76,7 +76,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             // given
             var expectedServiceCollectionValidationException =
                 new DependencyInjectionValidationException(
-                    message: "Service Collection validation error occurred, fix errors and try again.",
+                    message: "Dependency Injection validation error occurred, fix errors and try again.",
                     innerException: exception);
 
             this.dependencyInjectionBroker

@@ -27,6 +27,18 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
                     invalidServiceDescriptorParameterException);
             }
 
+            catch (InvalidServiceCollectionParameterException invalidServiceCollectionParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidServiceCollectionParameterException);
+            }
+
+            catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidDependencyInjectionParameterException);
+            }
+
             catch (ArgumentException argumentException)
             {
                 var addServiceDescriptorException =
@@ -54,7 +66,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             Xeption exception)
         {
             return new DependencyInjectionValidationException(
-                message: "Service Collection validation error occurred, fix errors and try again.",
+                message: "Dependency Injection validation error occurred, fix errors and try again.",
                 innerException: exception);
         }
 
@@ -62,7 +74,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             CreateDependencyInjectionValidationDependencyException(Xeption exception)
         {
             return new DependencyInjectionValidationDependencyException(
-                message: "Service collection validation dependency error occurred, contact support.",
+                message: "Dependency Injection validation dependency error occurred, contact support.",
                 innerException: exception);
         }
 
@@ -70,7 +82,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             Xeption exception)
         {
             return new DependencyInjectionServiceException(
-                message: "ServiceCollection service error occurred, contact support.",
+                message: "Dependency Injection service error occurred, contact support.",
                 innerException: exception);
         }
     }

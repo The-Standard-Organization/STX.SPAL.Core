@@ -3,12 +3,19 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
 using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions;
 
 namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 {
     internal partial class DependencyInjectionService
     {
+        private static dynamic IsInvalidObject<T>(T @object) => new
+        {
+            Condition = @object is null,
+            Message = "object is required"
+        };
+
         private static dynamic IsInvalidType(Type type) => new
         {
             Condition = type is null,
@@ -21,7 +28,26 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             Message = "Value is required"
         };
 
-        private static void Validate(params (dynamic Rule, string Parameter)[] validations)
+        private static void ValidateDependencyInjection(params (dynamic Rule, string Parameter)[] validations)
+        {
+            var invalidServiceDescriptorParameterException =
+                new InvalidDependencyInjectionParameterException (
+                    message: "Invalid dependency injection parameter error occurred, fix errors and try again.");
+
+            foreach ((dynamic rule, string parameter) in validations)
+            {
+                if (rule.Condition)
+                {
+                    invalidServiceDescriptorParameterException.UpsertDataList(
+                        key: parameter,
+                        value: rule.Message);
+                }
+            }
+
+            invalidServiceDescriptorParameterException.ThrowIfContainsErrors();
+        }
+
+        private static void ValidateServiceDescriptor(params (dynamic Rule, string Parameter)[] validations)
         {
             var invalidServiceDescriptorParameterException =
                 new InvalidServiceDescriptorParameterException(
@@ -40,9 +66,28 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             invalidServiceDescriptorParameterException.ThrowIfContainsErrors();
         }
 
+        private static void ValidateServiceCollection(params (dynamic Rule, string Parameter)[] validations)
+        {
+            var invalidServiceDescriptorParameterException =
+                new InvalidServiceCollectionParameterException(
+                    message: "Invalid service collection parameter error occurred, fix errors and try again.");
+
+            foreach ((dynamic rule, string parameter) in validations)
+            {
+                if (rule.Condition)
+                {
+                    invalidServiceDescriptorParameterException.UpsertDataList(
+                        key: parameter,
+                        value: rule.Message);
+                }
+            }
+
+            invalidServiceDescriptorParameterException.ThrowIfContainsErrors();
+        }
+
         private static void ValidateServiceDescriptorTypes(Type spalInterfaceType, Type implementationType)
         {
-            Validate(
+            ValidateServiceDescriptor(
                 (Rule: IsInvalidType(spalInterfaceType), Parameter: nameof(spalInterfaceType)),
                 (Rule: IsInvalidType(implementationType), Parameter: nameof(implementationType)));
         }
@@ -52,10 +97,20 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             string spalId,
             Type implementationType)
         {
-            Validate(
+            ValidateServiceDescriptor(
                 (Rule: IsInvalidType(spalInterfaceType), Parameter: nameof(spalInterfaceType)),
                 (Rule: IsInvalid(spalId), Parameter: nameof(spalId)),
                 (Rule: IsInvalidType(implementationType), Parameter: nameof(implementationType)));
+        }
+
+        private static void ValidateServiceCollection(DependencyInjection dependencyInjection)
+        {
+            ValidateDependencyInjection(
+                (Rule: IsInvalidObject(dependencyInjection), Parameter: nameof(DependencyInjection)));
+
+            ValidateServiceCollection(
+                (Rule: IsInvalidObject(dependencyInjection.ServiceCollection), Parameter: nameof(DependencyInjection.ServiceCollection)));
+
         }
     }
 }

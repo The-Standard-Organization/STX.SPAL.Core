@@ -55,17 +55,20 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             return dependencyInjection;
         });
 
-        public DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection)
-        {
-            IServiceProvider serviceProvider =
-                dependencyInjectionBroker.BuildServiceProvider(
-                    dependencyInjection.ServiceCollection);
-
-            return new DependencyInjection
+        public DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection) =>
+            TryCatch(() =>
             {
-                ServiceCollection = dependencyInjection.ServiceCollection,
-                ServiceProvider = serviceProvider
-            };
-        }
+                ValidateServiceCollection(dependencyInjection);
+
+                IServiceProvider serviceProvider =
+                    dependencyInjectionBroker.BuildServiceProvider(
+                        dependencyInjection.ServiceCollection);
+
+                return new DependencyInjection
+                {
+                    ServiceCollection = dependencyInjection.ServiceCollection,
+                    ServiceProvider = serviceProvider
+                };
+            });
     }
 }
