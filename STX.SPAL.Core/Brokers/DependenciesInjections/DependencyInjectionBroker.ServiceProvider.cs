@@ -12,10 +12,10 @@ namespace STX.SPAL.Core.Brokers.DependenciesInjections
         public IServiceProvider BuildServiceProvider(IServiceCollection serviceCollection) =>
             serviceCollection.BuildServiceProvider();
 
-        public T ResolveImplementation<T>(IServiceProvider serviceProvider) =>
+        public T GetService<T>(IServiceProvider serviceProvider) =>
             serviceProvider.GetRequiredService<T>();
 
-        public T ResolveImplementation<T>(IServiceProvider serviceProvider, string spalId) =>
+        public T GetService<T>(IServiceProvider serviceProvider, string spalId) =>
             serviceProvider.GetRequiredKeyedService<T>(spalId);
     }
 }

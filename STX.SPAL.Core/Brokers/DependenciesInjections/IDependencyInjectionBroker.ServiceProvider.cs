@@ -10,7 +10,7 @@ namespace STX.SPAL.Core.Brokers.DependenciesInjections
     internal partial interface IDependencyInjectionBroker
     {
         IServiceProvider BuildServiceProvider(IServiceCollection serviceCollection);
-        T ResolveImplementation<T>(IServiceProvider serviceProvider);
-        T ResolveImplementation<T>(IServiceProvider serviceProvider, string spalId);
+        T GetService<T>(IServiceProvider serviceProvider);
+        T GetService<T>(IServiceProvider serviceProvider, string spalId);
     }
 }
