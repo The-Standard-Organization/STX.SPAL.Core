@@ -44,6 +44,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             ServiceLifetime serviceLifetime) =>
         TryCatch(() =>
         {
+            ValidateDependencyInjection(dependencyInjection);
             ValidateServiceDescriptorTypesWithSpalId(spalInterfaceType, spalId, implementationType);
 
             ServiceDescriptor serviceDescriptor =
