@@ -26,7 +26,11 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
         DependencyInjection BuildServiceProvider(
             DependencyInjection dependencyInjection);
 
-        public T GetService<T>(
+        T GetService<T>(
             DependencyInjection dependencyInjection);
+
+        T GetService<T>(
+            DependencyInjection dependencyInjection,
+            string spalId);
     }
 }
