@@ -63,14 +63,12 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorWithSpalIdValidationExceptions))]
         private void ShouldThrowValidationExceptionIfInvalidParametersWhenUsingSpalId(
+            DependencyInjection someDependencyInjection,
             Type spalInterfaceType,
             string spalId,
             Type implementationType,
             Xeption exception)
         {
-            dynamic randomProperties = CreateRandomProperties();
-            DependencyInjection someDependencyInjection = randomProperties.DependencyInjection;
-
             // given
             var expectedServiceCollectionValidationException =
                 new DependencyInjectionValidationException(

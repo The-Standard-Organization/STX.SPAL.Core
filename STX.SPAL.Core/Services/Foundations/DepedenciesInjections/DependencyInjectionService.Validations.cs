@@ -85,6 +85,12 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             invalidServiceDescriptorParameterException.ThrowIfContainsErrors();
         }
 
+        private static void ValidateDependencyInjection(DependencyInjection dependencyInjection)
+        {
+            ValidateDependencyInjection(
+                (Rule: IsInvalidObject(dependencyInjection), Parameter: nameof(DependencyInjection)));
+        }
+
         private static void ValidateServiceDescriptorTypes(Type spalInterfaceType, Type implementationType)
         {
             ValidateServiceDescriptor(

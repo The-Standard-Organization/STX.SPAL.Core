@@ -286,11 +286,27 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             };
         }
 
-        public static TheoryData<Type, string, Type, Xeption> RegisterServiceDescriptorWithSpalIdValidationExceptions()
+        public static TheoryData<DependencyInjection, Type, string, Type, Xeption> RegisterServiceDescriptorWithSpalIdValidationExceptions()
         {
-            return new TheoryData<Type, string, Type, Xeption>
+            dynamic randomProperties = CreateRandomProperties();
+            DependencyInjection someDependencyInjection = randomProperties.DependencyInjection;
+
+            return new TheoryData<DependencyInjection, Type, string, Type, Xeption>
             {
                 {
+                    null,
+                    null,
+                    null,
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     GetRandomString(),
                     null,
@@ -302,6 +318,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     GetRandomString(),
                     CreateRandomImplementationType(),
@@ -313,6 +330,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     GetRandomString(),
                     null,
@@ -325,6 +343,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     null,
                     null,
@@ -337,6 +356,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     null,
                     CreateRandomImplementationType(),
@@ -349,6 +369,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     null,
                     null,
@@ -362,6 +383,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     "",
                     null,
@@ -374,6 +396,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     "",
                     CreateRandomImplementationType(),
@@ -386,6 +409,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     "",
                     null,
@@ -399,6 +423,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     " ",
                     null,
@@ -411,6 +436,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     " ",
                     CreateRandomImplementationType(),
@@ -423,6 +449,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     " ",
                     null,
