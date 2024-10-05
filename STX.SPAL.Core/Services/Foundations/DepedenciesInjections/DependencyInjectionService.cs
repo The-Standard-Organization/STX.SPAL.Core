@@ -73,7 +73,10 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
                 };
             });
 
-        public T GetService<T>(DependencyInjection dependencyInjection) =>
-            throw new NotImplementedException();
+        public T GetService<T>(DependencyInjection dependencyInjection)
+        {
+            return dependencyInjectionBroker.GetService<T>(
+                dependencyInjection.ServiceProvider);
+        }
     }
 }

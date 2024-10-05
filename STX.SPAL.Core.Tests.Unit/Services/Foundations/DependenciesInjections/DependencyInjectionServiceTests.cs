@@ -86,12 +86,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             TypeBuilder typeBuilder = moduleBuilder.DefineType(
                 name: GetRandomString(),
-                attr: TypeAttributes.Public | TypeAttributes.Class,
-                parent: null,
-                interfaces: new Type[]
-                {
-                    iSpalBaseType
-                });
+                attr:
+                    TypeAttributes.Public
+                    | TypeAttributes.Class);
+
+            typeBuilder.AddInterfaceImplementation(iSpalBaseType);
 
             MethodInfo methodInfoGetSPALId =
                 iSpalBaseType
@@ -101,15 +100,22 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 typeBuilder
                     .DefineMethod(
                         name: nameof(ISPALBase.GetSPALId),
-                        attributes: MethodAttributes.Public | MethodAttributes.Virtual,
-                        callingConvention: CallingConventions.HasThis,
+                        attributes:
+                            MethodAttributes.Public
+                            | MethodAttributes.Final
+                            | MethodAttributes.HideBySig
+                            | MethodAttributes.NewSlot
+                            | MethodAttributes.Virtual,
+
                         returnType: typeof(string),
                         parameterTypes: Type.EmptyTypes);
 
             ILGenerator ilGenerator =
                 getSPALIDMethodBuilder.GetILGenerator();
 
-            ilGenerator.Emit(OpCodes.Ret, "Hello SPAL ID");
+            ilGenerator.Emit(OpCodes.Ldstr, "Hello SPAL ID");
+            ilGenerator.Emit(OpCodes.Ret);
+
             typeBuilder.DefineMethodOverride(
                 getSPALIDMethodBuilder,
                 iSpalBaseType.GetMethod(nameof(ISPALBase.GetSPALId)));

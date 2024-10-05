@@ -24,8 +24,17 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             ServiceDescriptor inputServiceDescriptor = randomServiceDescriptor;
             ServiceDescriptor expectedServiceDescriptor = inputServiceDescriptor;
 
-            DependencyInjection inputDependencyInjection = inputProperties.DependencyInjection;
-            inputDependencyInjection.ServiceCollection.Add(inputServiceDescriptor);
+
+            IServiceCollection inputServiceCollection = inputProperties.DependencyInjection.ServiceCollection;
+            inputServiceCollection.Add(inputServiceDescriptor);
+
+            DependencyInjection inputDependencyInjection =
+                new DependencyInjection
+                {
+                    ServiceCollection = inputServiceCollection,
+                    ServiceProvider = inputServiceCollection.BuildServiceProvider()
+                };
+
             Type implementationType = randomProperties.ImplementationType;
 
             ISPALBase returnedService =
@@ -33,13 +42,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             ISPALBase expectedService = returnedService;
 
-            DependencyInjection expectedDependencyInjection =
-                new DependencyInjection
-                {
-                    ServiceCollection = inputDependencyInjection.ServiceCollection,
-                    ServiceProvider = inputDependencyInjection.ServiceCollection.BuildServiceProvider()
-                };
-
+            DependencyInjection expectedDependencyInjection = inputDependencyInjection;
             DependencyInjection returnedDependencyInjection = expectedDependencyInjection;
 
             this.dependencyInjectionBroker
