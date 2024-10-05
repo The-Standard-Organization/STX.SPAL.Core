@@ -4,18 +4,20 @@
 
 using System;
 using Microsoft.Extensions.DependencyInjection;
-using STX.SPAL.Core.Brokers.DependenciesInjection;
+using STX.SPAL.Core.Brokers.DependenciesInjections;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
 
-namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
+namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 {
-    internal partial class ServiceCollectionService : IServiceCollectionService
+    internal partial class DependencyInjectionService : IDependencyInjectionService
     {
         private readonly IDependencyInjectionBroker dependencyInjectionBroker;
 
-        public ServiceCollectionService(IDependencyInjectionBroker dependencyInjectionBroker) =>
+        public DependencyInjectionService(IDependencyInjectionBroker dependencyInjectionBroker) =>
             this.dependencyInjectionBroker = dependencyInjectionBroker;
 
-        public IServiceCollection RegisterServiceDescriptor(
+        public DependencyInjection RegisterServiceDescriptor(
+            DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             Type implementationType,
             ServiceLifetime serviceLifetime) =>
@@ -26,10 +28,15 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
             ServiceDescriptor serviceDescriptor =
                 new ServiceDescriptor(spalInterfaceType, implementationType, serviceLifetime);
 
-            return dependencyInjectionBroker.AddServiceDescriptor(serviceDescriptor);
+            dependencyInjectionBroker.AddServiceDescriptor(
+                dependencyInjection.ServiceCollection,
+                serviceDescriptor);
+
+            return dependencyInjection;
         });
 
-        public IServiceCollection RegisterServiceDescriptor(
+        public DependencyInjection RegisterServiceDescriptor(
+            DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             string spalId,
             Type implementationType,
@@ -41,7 +48,11 @@ namespace STX.SPAL.Core.Services.Foundations.ServicesCollections
             ServiceDescriptor serviceDescriptor =
                new ServiceDescriptor(spalInterfaceType, spalId, implementationType, serviceLifetime);
 
-            return dependencyInjectionBroker.AddServiceDescriptor(serviceDescriptor);
+            dependencyInjectionBroker.AddServiceDescriptor(
+                dependencyInjection.ServiceCollection,
+                serviceDescriptor);
+
+            return dependencyInjection;
         });
     }
 }

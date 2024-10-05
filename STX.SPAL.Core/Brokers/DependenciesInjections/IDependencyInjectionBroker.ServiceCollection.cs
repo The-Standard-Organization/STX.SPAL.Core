@@ -4,13 +4,12 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace STX.SPAL.Core.Brokers.DependenciesInjection
+namespace STX.SPAL.Core.Brokers.DependenciesInjections
 {
-    internal partial class DependencyInjectionBroker : IDependencyInjectionBroker
+    internal partial interface IDependencyInjectionBroker
     {
-        private readonly ServiceCollection serviceCollection;
-
-        public DependencyInjectionBroker() =>
-            serviceCollection = new ServiceCollection();
+        IServiceCollection AddServiceDescriptor(
+            IServiceCollection serviceCollection,
+            ServiceDescriptor serviceDescriptor);
     }
 }

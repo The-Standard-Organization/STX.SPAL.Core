@@ -5,11 +5,11 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace STX.SPAL.Core.Brokers.DependenciesInjection
+namespace STX.SPAL.Core.Brokers.DependenciesInjections
 {
     internal partial class DependencyInjectionBroker
     {
-        public IServiceProvider BuildServiceProvider() =>
+        public IServiceProvider BuildServiceProvider(IServiceCollection serviceCollection) =>
             serviceCollection.BuildServiceProvider();
 
         public T ResolveImplementation<T>(ServiceProvider serviceProvider) =>

@@ -12,27 +12,28 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using STX.SPAL.Abstractions;
-using STX.SPAL.Core.Brokers.DependenciesInjection;
-using STX.SPAL.Core.Models.Services.Foundations.ServicesCollections.Exceptions;
-using STX.SPAL.Core.Services.Foundations.ServicesCollections;
+using STX.SPAL.Core.Brokers.DependenciesInjections;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
+using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions;
+using STX.SPAL.Core.Services.Foundations.DependenciesInjections;
 using Tynamix.ObjectFiller;
 using Xeptions;
 
-namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
+namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 {
-    public partial class ServiceCollectionServiceTests
+    public partial class DependencyInjectionServiceTests
     {
         private readonly Mock<IDependencyInjectionBroker> dependencyInjectionBroker;
         private readonly ICompareLogic compareLogic;
-        private readonly IServiceCollectionService serviceCollectionService;
+        private readonly IDependencyInjectionService dependencyInjectionService;
 
-        public ServiceCollectionServiceTests()
+        public DependencyInjectionServiceTests()
         {
             this.dependencyInjectionBroker = new Mock<IDependencyInjectionBroker>();
             this.compareLogic = new CompareLogic();
 
-            this.serviceCollectionService =
-                new ServiceCollectionService(dependencyInjectionBroker.Object);
+            this.dependencyInjectionService =
+                new DependencyInjectionService(dependencyInjectionBroker.Object);
         }
 
         private static string GetRandomString() =>
@@ -128,7 +129,10 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.ServicesCollections
                         randomImplementationType,
                         randomServiceLifeTime),
 
-                ServiceCollection = new ServiceCollection()
+                DependencyInjection = new DependencyInjection
+                {
+                    ServiceCollection = new ServiceCollection()
+                }
             };
         }
 
