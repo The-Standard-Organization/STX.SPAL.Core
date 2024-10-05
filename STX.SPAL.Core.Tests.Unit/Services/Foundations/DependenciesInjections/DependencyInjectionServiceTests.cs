@@ -190,6 +190,15 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             return invalidServiceDescriptorParameterException;
         }
 
+        private static Xeption CreateInvalidServiceCollectionParameterException()
+        {
+            var invalidServiceCollectionParameterException =
+                new InvalidServiceCollectionParameterException(
+                    message: "Invalid service collection parameter error occurred, fix errors and try again.");
+
+            return invalidServiceCollectionParameterException;
+        }
+
         public static TheoryData<Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
         {
             return new TheoryData<Type, Type, Xeption>
@@ -391,6 +400,14 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             return new TheoryData<Exception>
             {
                 new Exception()
+            };
+        }
+
+        public static TheoryData<Xeption> BuildServiceProviderValidationExceptions()
+        {
+            return new TheoryData<Xeption>
+            {
+                CreateInvalidServiceCollectionParameterException()
             };
         }
     }
