@@ -56,38 +56,65 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         private static Type CreateRandomSpalInterfaceType()
         {
+            Type iSpalBaseType = typeof(ISPALBase);
+
             AssemblyBuilder spalAssembly = CreateRandomAssembly();
             string assemblyName = spalAssembly.GetName().Name;
             ModuleBuilder moduleBuilder = spalAssembly.DefineDynamicModule(assemblyName);
 
             TypeBuilder typeBuilder = moduleBuilder.DefineType(
                 name: GetRandomString(),
-                attr: TypeAttributes.Public,
+                attr: TypeAttributes.Public
+                    | TypeAttributes.Interface
+                    | TypeAttributes.Abstract,
                 parent: null,
                 interfaces: new Type[]
                 {
-                    typeof(ISPALBase)
+                    iSpalBaseType
                 });
 
-            return typeBuilder;
+            return typeBuilder.CreateType();
         }
 
         private static Type CreateRandomImplementationType()
         {
+            Type iSpalBaseType = typeof(ISPALBase);
+
             AssemblyBuilder spalAssembly = CreateRandomAssembly();
             string assemblyName = spalAssembly.GetName().Name;
             ModuleBuilder moduleBuilder = spalAssembly.DefineDynamicModule(assemblyName);
 
             TypeBuilder typeBuilder = moduleBuilder.DefineType(
                 name: GetRandomString(),
-                attr: TypeAttributes.Public,
+                attr: TypeAttributes.Public | TypeAttributes.Class,
                 parent: null,
                 interfaces: new Type[]
                 {
-                    typeof(ISPALBase)
+                    iSpalBaseType
                 });
 
-            return typeBuilder;
+            MethodInfo methodInfoGetSPALId =
+                iSpalBaseType
+                    .GetMethod(nameof(ISPALBase.GetSPALId));
+
+            MethodBuilder getSPALIDMethodBuilder =
+                typeBuilder
+                    .DefineMethod(
+                        name: nameof(ISPALBase.GetSPALId),
+                        attributes: MethodAttributes.Public | MethodAttributes.Virtual,
+                        callingConvention: CallingConventions.HasThis,
+                        returnType: typeof(string),
+                        parameterTypes: Type.EmptyTypes);
+
+            ILGenerator ilGenerator =
+                getSPALIDMethodBuilder.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ret, "Hello SPAL ID");
+            typeBuilder.DefineMethodOverride(
+                getSPALIDMethodBuilder,
+                iSpalBaseType.GetMethod(nameof(ISPALBase.GetSPALId)));
+
+            return typeBuilder.CreateType();
         }
 
         private static ServiceLifetime CreateRandomServiceLifeTime()
@@ -155,6 +182,17 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 this.compareLogic.Compare(
                     expectedServiceCollection,
                     actualServiceCollection)
+                        .AreEqual;
+        }
+
+        private Expression<Func<IServiceProvider, bool>> SameServiceProviderAs(
+            IServiceProvider actualServiceProvider,
+            IServiceProvider expectedServiceProvider)
+        {
+            return actualServiceProvider =>
+                this.compareLogic.Compare(
+                    expectedServiceProvider,
+                    actualServiceProvider)
                         .AreEqual;
         }
 

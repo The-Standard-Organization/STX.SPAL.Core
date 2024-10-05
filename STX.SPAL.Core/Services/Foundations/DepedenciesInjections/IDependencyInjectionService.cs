@@ -23,6 +23,10 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             Type implementationType,
             ServiceLifetime serviceLifetime);
 
-        DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection);
+        DependencyInjection BuildServiceProvider(
+            DependencyInjection dependencyInjection);
+
+        public T GetService<T>(
+            DependencyInjection dependencyInjection);
     }
 }
