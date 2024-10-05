@@ -147,6 +147,28 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                         .AreEqual;
         }
 
+        private Expression<Func<IServiceCollection, bool>> SameServiceCollectionAs(
+            IServiceCollection actualServiceCollection,
+            IServiceCollection expectedServiceCollection)
+        {
+            return actualServiceCollection =>
+                this.compareLogic.Compare(
+                    expectedServiceCollection,
+                    actualServiceCollection)
+                        .AreEqual;
+        }
+
+        private Expression<Func<DependencyInjection, bool>> SameDependencyInjectionAs(
+            DependencyInjection actualDependencyInjection,
+            DependencyInjection expectedDependencyInjection)
+        {
+            return actualDependencyInjection =>
+                this.compareLogic.Compare(
+                    expectedDependencyInjection,
+                    actualDependencyInjection)
+                        .AreEqual;
+        }
+
         private static Xeption CreateInvalidServiceDescriptorParameterException(
             IDictionary<string, string> parameters)
         {

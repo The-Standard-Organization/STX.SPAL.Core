@@ -22,5 +22,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             string spalId,
             Type implementationType,
             ServiceLifetime serviceLifetime);
+
+        DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection);
     }
 }

@@ -54,5 +54,8 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 
             return dependencyInjection;
         });
+
+        public DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection) =>
+            throw new NotImplementedException();
     }
 }
