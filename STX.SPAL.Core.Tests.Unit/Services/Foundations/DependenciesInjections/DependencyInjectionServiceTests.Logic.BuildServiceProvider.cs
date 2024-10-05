@@ -3,7 +3,6 @@
 // ----------------------------------------------------------------------------------
 
 using FluentAssertions;
-using Force.DeepCloner;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
@@ -24,11 +23,16 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             ServiceDescriptor expectedServiceDescriptor = inputServiceDescriptor;
 
             DependencyInjection inputDependencyInjection = inputProperties.DependencyInjection;
-            DependencyInjection expectedDependencyInjection = inputDependencyInjection.DeepClone();
-            DependencyInjection returnedDependencyInjection = inputDependencyInjection.DeepClone();
-            IServiceCollection inputServiceCollection = inputDependencyInjection.ServiceCollection;
+            inputDependencyInjection.ServiceCollection.Add(inputServiceDescriptor);
 
-            expectedDependencyInjection.ServiceCollection.Add(inputServiceDescriptor);
+            DependencyInjection expectedDependencyInjection =
+                new DependencyInjection
+                {
+                    ServiceCollection = inputDependencyInjection.ServiceCollection,
+                    ServiceProvider = inputDependencyInjection.ServiceCollection.BuildServiceProvider()
+                };
+
+            DependencyInjection returnedDependencyInjection = expectedDependencyInjection;
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
@@ -38,8 +42,8 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                                 actualServiceCollection,
                                 expectedDependencyInjection.ServiceCollection)
                             .Compile()
-                            .Invoke(inputServiceCollection))))
-                .Returns(inputDependencyInjection.ServiceProvider);
+                            .Invoke(inputDependencyInjection.ServiceCollection))))
+                .Returns(returnedDependencyInjection.ServiceProvider);
 
             // when
             DependencyInjection actualDependencyInjection =

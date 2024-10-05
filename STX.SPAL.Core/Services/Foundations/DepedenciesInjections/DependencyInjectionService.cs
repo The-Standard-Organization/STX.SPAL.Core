@@ -55,7 +55,17 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             return dependencyInjection;
         });
 
-        public DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection) =>
-            throw new NotImplementedException();
+        public DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection)
+        {
+            IServiceProvider serviceProvider =
+                dependencyInjectionBroker.BuildServiceProvider(
+                    dependencyInjection.ServiceCollection);
+
+            return new DependencyInjection
+            {
+                ServiceCollection = dependencyInjection.ServiceCollection,
+                ServiceProvider = serviceProvider
+            };
+        }
     }
 }
