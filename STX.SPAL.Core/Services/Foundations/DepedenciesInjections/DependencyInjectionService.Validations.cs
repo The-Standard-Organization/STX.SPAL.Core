@@ -30,7 +30,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 
         private static void ValidateDependencyInjection(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidServiceDescriptorParameterException =
+            var invalidDependencyInjectionParameterException =
                 new InvalidDependencyInjectionParameterException (
                     message: "Invalid dependency injection parameter error occurred, fix errors and try again.");
 
@@ -38,13 +38,13 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             {
                 if (rule.Condition)
                 {
-                    invalidServiceDescriptorParameterException.UpsertDataList(
+                    invalidDependencyInjectionParameterException.UpsertDataList(
                         key: parameter,
                         value: rule.Message);
                 }
             }
 
-            invalidServiceDescriptorParameterException.ThrowIfContainsErrors();
+            invalidDependencyInjectionParameterException.ThrowIfContainsErrors();
         }
 
         private static void ValidateServiceDescriptor(params (dynamic Rule, string Parameter)[] validations)
@@ -68,7 +68,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 
         private static void ValidateServiceCollection(params (dynamic Rule, string Parameter)[] validations)
         {
-            var invalidServiceDescriptorParameterException =
+            var invalidServiceCollectionParameterException =
                 new InvalidServiceCollectionParameterException(
                     message: "Invalid service collection parameter error occurred, fix errors and try again.");
 
@@ -76,13 +76,32 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             {
                 if (rule.Condition)
                 {
-                    invalidServiceDescriptorParameterException.UpsertDataList(
+                    invalidServiceCollectionParameterException.UpsertDataList(
                         key: parameter,
                         value: rule.Message);
                 }
             }
 
-            invalidServiceDescriptorParameterException.ThrowIfContainsErrors();
+            invalidServiceCollectionParameterException.ThrowIfContainsErrors();
+        }
+
+        private static void ValidateServiceProvider(params (dynamic Rule, string Parameter)[] validations)
+        {
+            var invalidServiceProviderParameterException =
+                new InvalidServiceProviderParameterException(
+                    message: "Invalid service provider parameter error occurred, fix errors and try again.");
+
+            foreach ((dynamic rule, string parameter) in validations)
+            {
+                if (rule.Condition)
+                {
+                    invalidServiceProviderParameterException.UpsertDataList(
+                        key: parameter,
+                        value: rule.Message);
+                }
+            }
+
+            invalidServiceProviderParameterException.ThrowIfContainsErrors();
         }
 
         private static void ValidateDependencyInjection(DependencyInjection dependencyInjection)
@@ -116,7 +135,15 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 
             ValidateServiceCollection(
                 (Rule: IsInvalidObject(dependencyInjection.ServiceCollection), Parameter: nameof(DependencyInjection.ServiceCollection)));
+        }
 
+        private static void ValidateServiceProvider(DependencyInjection dependencyInjection)
+        {
+            ValidateDependencyInjection(
+                (Rule: IsInvalidObject(dependencyInjection), Parameter: nameof(DependencyInjection)));
+
+            ValidateServiceProvider(
+                (Rule: IsInvalidObject(dependencyInjection.ServiceProvider), Parameter: nameof(DependencyInjection.ServiceProvider)));
         }
     }
 }

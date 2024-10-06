@@ -281,7 +281,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
         {
             var invalidServiceProviderParameterException =
                 new InvalidServiceProviderParameterException(
-                    message: "Invalid service provider injection parameter error occurred, fix errors and try again.");
+                    message: "Invalid service provider parameter error occurred, fix errors and try again.");
 
             parameters
                 .Select(parameter =>
@@ -587,7 +587,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                     CreateInvalidServiceProviderParameterException(
                         new Dictionary<string, string>
                         {
-                            {nameof(ServiceCollection), "object is required" }
+                            {nameof(ServiceProvider), "object is required" }
                         })
                 },
             };

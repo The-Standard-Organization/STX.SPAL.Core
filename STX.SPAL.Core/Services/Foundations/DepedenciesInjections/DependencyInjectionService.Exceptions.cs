@@ -12,6 +12,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
     internal partial class DependencyInjectionService
     {
         private delegate DependencyInjection ReturningDependencyInjectionFunction();
+        private delegate T ReturningGetServiceDependencyInjectionFunction<T>();
 
         private static DependencyInjection TryCatch(
             ReturningDependencyInjectionFunction returningDependencyInjectionFunction)
@@ -19,6 +20,12 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             try
             {
                 return returningDependencyInjectionFunction();
+            }
+
+            catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidDependencyInjectionParameterException);
             }
 
             catch (InvalidServiceDescriptorParameterException invalidServiceDescriptorParameterException)
@@ -33,10 +40,10 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
                     invalidServiceCollectionParameterException);
             }
 
-            catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)
+            catch (InvalidServiceProviderParameterException invalidServiceProviderParameterException)
             {
                 throw CreateDependencyInjectionValidationException(
-                    invalidDependencyInjectionParameterException);
+                    invalidServiceProviderParameterException);
             }
 
             catch (ArgumentException argumentException)
@@ -59,6 +66,27 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 
                 throw CreateDependencyInjectionServiceException(
                     failedServiceCollectionServiceException);
+            }
+        }
+
+        private static T TryCatchGetService<T>(
+            ReturningGetServiceDependencyInjectionFunction<T> returningGetServiceDependencyInjectionFunction)
+        {
+            try
+            {
+                return returningGetServiceDependencyInjectionFunction();
+            }
+
+            catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidDependencyInjectionParameterException);
+            }
+
+            catch (InvalidServiceProviderParameterException invalidServiceProviderParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidServiceProviderParameterException);
             }
         }
 

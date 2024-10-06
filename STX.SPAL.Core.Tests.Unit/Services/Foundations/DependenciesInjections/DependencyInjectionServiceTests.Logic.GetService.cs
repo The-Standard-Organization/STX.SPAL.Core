@@ -4,6 +4,7 @@
 
 using System;
 using FluentAssertions;
+using Force.DeepCloner;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using STX.SPAL.Abstractions;
@@ -42,7 +43,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             ISPALBase expectedService = returnedService;
 
-            DependencyInjection expectedDependencyInjection = inputDependencyInjection;
+            DependencyInjection expectedDependencyInjection = inputDependencyInjection.DeepClone();
             DependencyInjection returnedDependencyInjection = expectedDependencyInjection;
 
             this.dependencyInjectionBroker
@@ -59,7 +60,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             // when
             ISPALBase actualService =
                this.dependencyInjectionService.GetService<ISPALBase>(
-                   inputProperties.DependencyInjection);
+                   inputDependencyInjection);
 
             //then
             actualService.Should().BeEquivalentTo(expectedService);
@@ -107,7 +108,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             ISPALBase expectedService = returnedService;
 
-            DependencyInjection expectedDependencyInjection = inputDependencyInjection;
+            DependencyInjection expectedDependencyInjection = inputDependencyInjection.DeepClone();
             DependencyInjection returnedDependencyInjection = expectedDependencyInjection;
 
             this.dependencyInjectionBroker
@@ -125,7 +126,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             // when
             ISPALBase actualService =
                this.dependencyInjectionService.GetService<ISPALBase>(
-                   inputProperties.DependencyInjection,
+                   inputDependencyInjection,
                    inputProperties.SpalId);
 
             //then
