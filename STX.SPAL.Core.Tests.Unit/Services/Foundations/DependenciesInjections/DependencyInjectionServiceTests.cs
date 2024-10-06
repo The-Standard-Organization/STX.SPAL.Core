@@ -276,6 +276,27 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             return invalidDependencyInjectionParameterException;
         }
 
+        private static Xeption CreateInvalidServiceProviderParameterException(
+            IDictionary<string, string> parameters)
+        {
+            var invalidServiceProviderParameterException =
+                new InvalidServiceProviderParameterException(
+                    message: "Invalid service provider injection parameter error occurred, fix errors and try again.");
+
+            parameters
+                .Select(parameter =>
+                {
+                    invalidServiceProviderParameterException.UpsertDataList(
+                        key: parameter.Key,
+                        value: parameter.Value);
+
+                    return invalidServiceProviderParameterException;
+                })
+                .ToArray();
+
+            return invalidServiceProviderParameterException;
+        }
+
         public static TheoryData<DependencyInjection, Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
         {
             dynamic randomProperties = CreateRandomProperties();
@@ -540,6 +561,30 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 {
                     new DependencyInjection(),
                     CreateInvalidServiceCollectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceCollection), "object is required" }
+                        })
+                },
+            };
+        }
+
+        public static TheoryData<DependencyInjection, Xeption> GetServiceValidationExceptions()
+        {
+            return new TheoryData<DependencyInjection, Xeption>
+            {
+                {
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection(),
+                    CreateInvalidServiceProviderParameterException(
                         new Dictionary<string, string>
                         {
                             {nameof(ServiceCollection), "object is required" }
