@@ -134,16 +134,48 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
                 (Rule: IsInvalidObject(dependencyInjection), Parameter: nameof(DependencyInjection)));
 
             ValidateServiceCollection(
-                (Rule: IsInvalidObject(dependencyInjection.ServiceCollection), Parameter: nameof(DependencyInjection.ServiceCollection)));
+                (Rule:
+                    IsInvalidObject(dependencyInjection.ServiceCollection),
+                Parameter:
+                    nameof(DependencyInjection.ServiceCollection)));
         }
 
-        private static void ValidateServiceProvider(DependencyInjection dependencyInjection)
+        private static void ValidateServiceProvider(
+            DependencyInjection dependencyInjection)
         {
             ValidateDependencyInjection(
-                (Rule: IsInvalidObject(dependencyInjection), Parameter: nameof(DependencyInjection)));
+                (Rule:
+                    IsInvalidObject(dependencyInjection),
+                Parameter:
+                    nameof(DependencyInjection)));
 
             ValidateServiceProvider(
-                (Rule: IsInvalidObject(dependencyInjection.ServiceProvider), Parameter: nameof(DependencyInjection.ServiceProvider)));
+                (Rule:
+                    IsInvalidObject(dependencyInjection.ServiceProvider),
+                Parameter:
+                    nameof(DependencyInjection.ServiceProvider)));
+        }
+
+        private static void ValidateServiceProviderWithSpalId(
+            DependencyInjection dependencyInjection,
+            string spalId)
+        {
+            ValidateDependencyInjection(
+                (Rule:
+                    IsInvalidObject(dependencyInjection),
+                Parameter:
+                    nameof(DependencyInjection)));
+
+            ValidateServiceProvider(
+                (Rule:
+                    IsInvalidObject(dependencyInjection.ServiceProvider),
+                Parameter:
+                    nameof(DependencyInjection.ServiceProvider)),
+
+                (Rule:
+                    IsInvalid(spalId),
+                Parameter:
+                    nameof(spalId)));
         }
     }
 }

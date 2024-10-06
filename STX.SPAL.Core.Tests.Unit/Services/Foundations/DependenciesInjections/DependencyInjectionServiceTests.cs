@@ -613,7 +613,8 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                     CreateInvalidServiceProviderParameterException(
                         new Dictionary<string, string>
                         {
-                            {nameof(ServiceProvider), "object is required" }
+                            {nameof(ServiceProvider), "object is required" },
+                            {"spalId", "Value is required" }
                         })
                 },
 
@@ -627,7 +628,42 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                     CreateInvalidServiceProviderParameterException(
                         new Dictionary<string, string>
                         {
-                            {"spalI", "Value is required" }
+                            {"spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    " ",
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection(),
+                    " ",
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceProvider), "object is required" },
+                            {"spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection
+                    {
+                        ServiceCollection = new ServiceCollection(),
+                        ServiceProvider = new ServiceCollection().BuildServiceProvider()
+                    },
+                    " ",
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {"spalId", "Value is required" }
                         })
                 },
             };
