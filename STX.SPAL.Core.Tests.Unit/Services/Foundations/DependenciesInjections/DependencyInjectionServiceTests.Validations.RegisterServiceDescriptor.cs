@@ -46,7 +46,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 Assert.Throws<DependencyInjectionValidationException>(
                     registerServiceDescriptorFunction);
 
-            //then
+            // then
             actualServiceCollectionValidationException.Should().BeEquivalentTo(
                 expectedServiceCollectionValidationException);
 
@@ -94,7 +94,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 Assert.Throws<DependencyInjectionValidationException>(
                     registerServiceDescriptorFunction);
 
-            //then
+            // then
             actualServiceCollectionValidationException.Should().BeEquivalentTo(
                 expectedServiceCollectionValidationException);
 

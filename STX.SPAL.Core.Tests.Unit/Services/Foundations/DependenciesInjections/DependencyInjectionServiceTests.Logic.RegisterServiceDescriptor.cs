@@ -50,7 +50,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                    inputProperties.ImplementationType,
                    inputProperties.ServiceLifeTime);
 
-            //then
+            // then
             actualDependencyInjection.Should().BeEquivalentTo(expectedDependencyInjection);
 
             this.dependencyInjectionBroker.Verify(
@@ -107,7 +107,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                    inputProperties.ImplementationType,
                    inputProperties.ServiceLifeTime);
 
-            //then
+            // then
             actualDependencyInjection.Should().BeEquivalentTo(expectedDependencyInjection);
 
             this.dependencyInjectionBroker.Verify(

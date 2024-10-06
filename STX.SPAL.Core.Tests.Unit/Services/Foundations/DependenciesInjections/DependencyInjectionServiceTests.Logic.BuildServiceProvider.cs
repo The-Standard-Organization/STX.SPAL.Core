@@ -50,7 +50,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                this.dependencyInjectionService.BuildServiceProvider(
                    inputProperties.DependencyInjection);
 
-            //then
+            // then
             actualDependencyInjection.Should().BeEquivalentTo(expectedDependencyInjection);
 
             this.dependencyInjectionBroker.Verify(

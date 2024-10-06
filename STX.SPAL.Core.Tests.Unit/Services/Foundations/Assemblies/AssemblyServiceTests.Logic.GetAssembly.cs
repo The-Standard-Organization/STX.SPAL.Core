@@ -31,7 +31,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             Assembly actualAssembly =
                this.assemblyService.GetAssembly(inputPathAssembly);
 
-            //then
+            // then
             actualAssembly.Should().BeSameAs(expectedAssembly);
 
             this.assemblyBroker.Verify(

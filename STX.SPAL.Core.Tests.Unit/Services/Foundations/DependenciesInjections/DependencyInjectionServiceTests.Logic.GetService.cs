@@ -25,7 +25,6 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             ServiceDescriptor inputServiceDescriptor = randomServiceDescriptor;
             ServiceDescriptor expectedServiceDescriptor = inputServiceDescriptor;
 
-
             IServiceCollection inputServiceCollection = inputProperties.DependencyInjection.ServiceCollection;
             inputServiceCollection.Add(inputServiceDescriptor);
 
@@ -129,7 +128,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                    inputDependencyInjection,
                    inputProperties.SpalId);
 
-            //then
+            // then
             actualService.Should().BeEquivalentTo(expectedService);
 
             this.dependencyInjectionBroker.Verify(

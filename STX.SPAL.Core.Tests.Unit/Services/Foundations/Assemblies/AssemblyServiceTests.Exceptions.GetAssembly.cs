@@ -45,7 +45,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 Assert.Throws<AssemblyDependencyException>(
                     getAssemblyFunction);
 
-            //then
+            // then
             actualAssemblyDependencyException.Should().BeEquivalentTo(
                 expectedAssemblyDependencyException);
 
@@ -90,7 +90,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 Assert.Throws<AssemblyValidationDependencyException>(
                     getAssemblyFunction);
 
-            //then
+            // then
             actualAssemblyValidationDependencyException.Should().BeEquivalentTo(
                 expectedAssemblyValidationDependencyException);
 
@@ -135,7 +135,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 Assert.Throws<AssemblyServiceException>(
                     getAssemblyFunction);
 
-            //then
+            // then
             actualAssemblyServiceException.Should().BeEquivalentTo(
                 expectedAssemblyServiceException);
 

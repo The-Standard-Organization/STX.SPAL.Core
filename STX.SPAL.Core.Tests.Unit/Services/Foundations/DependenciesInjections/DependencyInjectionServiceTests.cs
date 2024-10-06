@@ -29,7 +29,9 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         public DependencyInjectionServiceTests()
         {
-            this.dependencyInjectionBroker = new Mock<IDependencyInjectionBroker>();
+            this.dependencyInjectionBroker =
+                new Mock<IDependencyInjectionBroker>();
+
             this.compareLogic = new CompareLogic();
 
             this.dependencyInjectionService =
@@ -60,18 +62,20 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             AssemblyBuilder spalAssembly = CreateRandomAssembly();
             string assemblyName = spalAssembly.GetName().Name;
-            ModuleBuilder moduleBuilder = spalAssembly.DefineDynamicModule(assemblyName);
+            ModuleBuilder moduleBuilder =
+                spalAssembly.DefineDynamicModule(assemblyName);
 
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(
-                name: GetRandomString(),
-                attr: TypeAttributes.Public
-                    | TypeAttributes.Interface
-                    | TypeAttributes.Abstract,
-                parent: null,
-                interfaces: new Type[]
-                {
-                    iSpalBaseType
-                });
+            TypeBuilder typeBuilder =
+                moduleBuilder.DefineType(
+                    name: GetRandomString(),
+                    attr: TypeAttributes.Public
+                        | TypeAttributes.Interface
+                        | TypeAttributes.Abstract,
+                    parent: null,
+                    interfaces: new Type[]
+                    {
+                        iSpalBaseType
+                    });
 
             return typeBuilder.CreateType();
         }
@@ -82,13 +86,15 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             AssemblyBuilder spalAssembly = CreateRandomAssembly();
             string assemblyName = spalAssembly.GetName().Name;
-            ModuleBuilder moduleBuilder = spalAssembly.DefineDynamicModule(assemblyName);
+            ModuleBuilder moduleBuilder =
+                spalAssembly.DefineDynamicModule(assemblyName);
 
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(
-                name: GetRandomString(),
-                attr:
-                    TypeAttributes.Public
-                    | TypeAttributes.Class);
+            TypeBuilder typeBuilder =
+                moduleBuilder.DefineType(
+                    name: GetRandomString(),
+                    attr:
+                        TypeAttributes.Public
+                        | TypeAttributes.Class);
 
             typeBuilder.AddInterfaceImplementation(iSpalBaseType);
 
@@ -174,10 +180,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             ServiceDescriptor expectedServiceDescriptor)
         {
             return actualServiceDescriptor =>
-                this.compareLogic.Compare(
-                    expectedServiceDescriptor,
-                    actualServiceDescriptor)
-                        .AreEqual;
+                this.compareLogic
+                    .Compare(
+                        expectedServiceDescriptor,
+                        actualServiceDescriptor)
+                    .AreEqual;
         }
 
         private Expression<Func<IServiceCollection, bool>> SameServiceCollectionAs(
@@ -185,10 +192,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             IServiceCollection expectedServiceCollection)
         {
             return actualServiceCollection =>
-                this.compareLogic.Compare(
-                    expectedServiceCollection,
-                    actualServiceCollection)
-                        .AreEqual;
+                this.compareLogic
+                    .Compare(
+                        expectedServiceCollection,
+                        actualServiceCollection)
+                    .AreEqual;
         }
 
         private Expression<Func<IServiceProvider, bool>> SameServiceProviderAs(
@@ -196,10 +204,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             IServiceProvider expectedServiceProvider)
         {
             return actualServiceProvider =>
-                this.compareLogic.Compare(
-                    expectedServiceProvider,
-                    actualServiceProvider)
-                        .AreEqual;
+                this.compareLogic
+                    .Compare(
+                        expectedServiceProvider,
+                        actualServiceProvider)
+                    .AreEqual;
         }
 
         private Expression<Func<DependencyInjection, bool>> SameDependencyInjectionAs(
@@ -207,10 +216,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             DependencyInjection expectedDependencyInjection)
         {
             return actualDependencyInjection =>
-                this.compareLogic.Compare(
-                    expectedDependencyInjection,
-                    actualDependencyInjection)
-                        .AreEqual;
+                this.compareLogic
+                    .Compare(
+                        expectedDependencyInjection,
+                        actualDependencyInjection)
+                    .AreEqual;
         }
 
         private static Xeption CreateInvalidServiceDescriptorParameterException(

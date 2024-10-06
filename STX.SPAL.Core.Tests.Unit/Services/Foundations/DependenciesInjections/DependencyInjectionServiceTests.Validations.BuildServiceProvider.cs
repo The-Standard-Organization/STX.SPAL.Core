@@ -40,7 +40,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 Assert.Throws<DependencyInjectionValidationException>(
                     buildServiceProviderFunction);
 
-            //then
+            // then
             actualDependencyInjectionValidationException.Should().BeEquivalentTo(
                 expectedDependencyInjectionValidationException);
 

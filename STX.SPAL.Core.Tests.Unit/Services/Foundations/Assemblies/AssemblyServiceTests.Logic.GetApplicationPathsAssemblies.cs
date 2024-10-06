@@ -2,7 +2,6 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
-using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 
@@ -31,7 +30,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
             string[] actualApplicationPathsAssemblies =
                this.assemblyService.GetApplicationPathsAssemblies();
 
-            //then
+            // then
             actualApplicationPathsAssemblies.Should()
                 .BeEquivalentTo(expectedApplicationPathsAssemblies);
 
