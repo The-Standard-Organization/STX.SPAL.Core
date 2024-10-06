@@ -82,14 +82,11 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
                     dependencyInjection.ServiceProvider);
             });
 
-        public T GetService<T>(DependencyInjection dependencyInjection, string spalId) =>
-            TryCatchGetService(() =>
+        public T GetService<T>(DependencyInjection dependencyInjection, string spalId)
             {
-                ValidateServiceProvider(dependencyInjection);
-
                 return dependencyInjectionBroker.GetService<T>(
                     dependencyInjection.ServiceProvider,
                     spalId);
-            });
+            }
     }
 }

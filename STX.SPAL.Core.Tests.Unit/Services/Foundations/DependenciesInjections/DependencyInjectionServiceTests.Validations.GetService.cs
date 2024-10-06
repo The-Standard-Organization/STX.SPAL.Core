@@ -52,5 +52,48 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker.VerifyNoOtherCalls();
         }
+
+        [Theory]
+        [MemberData(nameof(GetServiceWithSpalValidationExceptions))]
+        private void ShouldThrowValidationExceptionIfInvalidParametersOnGetServiceWithSpal(
+            DependencyInjection someDependencyInjection,
+            string someSpalId,
+            Xeption exception)
+        {
+            // given
+            var expectedDependencyInjectionValidationException =
+                new DependencyInjectionValidationException(
+                    message: "Dependency Injection validation error occurred, fix errors and try again.",
+                    innerException: exception);
+
+            this.dependencyInjectionBroker
+                .Setup(broker =>
+                    broker.GetService<ISPALBase>(
+                        It.IsAny<IServiceProvider>(),
+                        It.IsAny<string>()));
+
+            // when
+            Func<ISPALBase> getServiceFunction = () =>
+                this.dependencyInjectionService.GetService<ISPALBase>(
+                    someDependencyInjection,
+                    someSpalId);
+
+            DependencyInjectionValidationException actualDependencyInjectionValidationException =
+                Assert.Throws<DependencyInjectionValidationException>(
+                    getServiceFunction);
+
+            //then
+            actualDependencyInjectionValidationException.Should().BeEquivalentTo(
+                expectedDependencyInjectionValidationException);
+
+            this.dependencyInjectionBroker
+                .Verify(broker =>
+                    broker.GetService<ISPALBase>(
+                        It.IsAny<IServiceProvider>(),
+                        It.IsAny<string>()),
+                Times.Never);
+
+            this.dependencyInjectionBroker.VerifyNoOtherCalls();
+        }
     }
 }

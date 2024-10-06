@@ -592,5 +592,45 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
             };
         }
+
+        public static TheoryData<DependencyInjection, string, Xeption> GetServiceWithSpalValidationExceptions()
+        {
+            return new TheoryData<DependencyInjection, string, Xeption>
+            {
+                {
+                    null,
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection(),
+                    null,
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceProvider), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection
+                    {
+                        ServiceCollection = new ServiceCollection(),
+                        ServiceProvider = new ServiceCollection().BuildServiceProvider()
+                    },
+                    null,
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {"spalI", "Value is required" }
+                        })
+                },
+            };
+        }
     }
 }
