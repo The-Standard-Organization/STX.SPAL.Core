@@ -535,8 +535,8 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                         {
                             {nameof(DependencyInjection), "object is required" }
                         })
-
                 },
+
                 {
                     new DependencyInjection(),
                     CreateInvalidServiceCollectionParameterException(

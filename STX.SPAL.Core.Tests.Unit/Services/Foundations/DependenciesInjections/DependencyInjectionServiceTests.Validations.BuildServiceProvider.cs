@@ -52,7 +52,5 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker.VerifyNoOtherCalls();
         }
-
-        
     }
 }
