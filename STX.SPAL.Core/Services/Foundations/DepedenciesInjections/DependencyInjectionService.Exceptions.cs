@@ -12,6 +12,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
     internal partial class DependencyInjectionService
     {
         private delegate DependencyInjection ReturningDependencyInjectionFunction();
+        private delegate T ReturningGetServiceDependencyInjectionFunction<T>();
 
         private static DependencyInjection TryCatch(
             ReturningDependencyInjectionFunction returningDependencyInjectionFunction)
@@ -21,10 +22,28 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
                 return returningDependencyInjectionFunction();
             }
 
+            catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidDependencyInjectionParameterException);
+            }
+
             catch (InvalidServiceDescriptorParameterException invalidServiceDescriptorParameterException)
             {
                 throw CreateDependencyInjectionValidationException(
                     invalidServiceDescriptorParameterException);
+            }
+
+            catch (InvalidServiceCollectionParameterException invalidServiceCollectionParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidServiceCollectionParameterException);
+            }
+
+            catch (InvalidServiceProviderParameterException invalidServiceProviderParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidServiceProviderParameterException);
             }
 
             catch (ArgumentException argumentException)
@@ -50,11 +69,32 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             }
         }
 
+        private static T TryCatchGetService<T>(
+            ReturningGetServiceDependencyInjectionFunction<T> returningGetServiceDependencyInjectionFunction)
+        {
+            try
+            {
+                return returningGetServiceDependencyInjectionFunction();
+            }
+
+            catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidDependencyInjectionParameterException);
+            }
+
+            catch (InvalidServiceProviderParameterException invalidServiceProviderParameterException)
+            {
+                throw CreateDependencyInjectionValidationException(
+                    invalidServiceProviderParameterException);
+            }
+        }
+
         private static DependencyInjectionValidationException CreateDependencyInjectionValidationException(
             Xeption exception)
         {
             return new DependencyInjectionValidationException(
-                message: "Service Collection validation error occurred, fix errors and try again.",
+                message: "Dependency Injection validation error occurred, fix errors and try again.",
                 innerException: exception);
         }
 
@@ -62,7 +102,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             CreateDependencyInjectionValidationDependencyException(Xeption exception)
         {
             return new DependencyInjectionValidationDependencyException(
-                message: "Service collection validation dependency error occurred, contact support.",
+                message: "Dependency Injection validation dependency error occurred, contact support.",
                 innerException: exception);
         }
 
@@ -70,7 +110,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             Xeption exception)
         {
             return new DependencyInjectionServiceException(
-                message: "ServiceCollection service error occurred, contact support.",
+                message: "Dependency Injection service error occurred, contact support.",
                 innerException: exception);
         }
     }

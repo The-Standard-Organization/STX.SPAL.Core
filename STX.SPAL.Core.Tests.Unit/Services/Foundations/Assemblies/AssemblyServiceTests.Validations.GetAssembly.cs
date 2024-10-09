@@ -56,7 +56,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                 Assert.Throws<AssemblyValidationException>(
                     getAssemblyFunction);
 
-            //then
+            // then
             actualAssemblyValidationException.Should().BeEquivalentTo(
                 expectedAssemblyValidationException);
 

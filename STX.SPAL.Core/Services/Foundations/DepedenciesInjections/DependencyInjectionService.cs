@@ -23,6 +23,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             ServiceLifetime serviceLifetime) =>
         TryCatch(() =>
         {
+            ValidateDependencyInjection(dependencyInjection);
             ValidateServiceDescriptorTypes(spalInterfaceType, implementationType);
 
             ServiceDescriptor serviceDescriptor =
@@ -43,6 +44,7 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             ServiceLifetime serviceLifetime) =>
         TryCatch(() =>
         {
+            ValidateDependencyInjection(dependencyInjection);
             ValidateServiceDescriptorTypesWithSpalId(spalInterfaceType, spalId, implementationType);
 
             ServiceDescriptor serviceDescriptor =
@@ -54,5 +56,40 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 
             return dependencyInjection;
         });
+
+        public DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection) =>
+            TryCatch(() =>
+            {
+                ValidateServiceCollection(dependencyInjection);
+
+                IServiceProvider serviceProvider =
+                    dependencyInjectionBroker.BuildServiceProvider(
+                        dependencyInjection.ServiceCollection);
+
+                return new DependencyInjection
+                {
+                    ServiceCollection = dependencyInjection.ServiceCollection,
+                    ServiceProvider = serviceProvider
+                };
+            });
+
+        public T GetService<T>(DependencyInjection dependencyInjection) =>
+            TryCatchGetService(() =>
+            {
+                ValidateServiceProvider(dependencyInjection);
+
+                return dependencyInjectionBroker.GetService<T>(
+                    dependencyInjection.ServiceProvider);
+            });
+
+        public T GetService<T>(DependencyInjection dependencyInjection, string spalId) =>
+            TryCatchGetService(() =>
+            {
+                ValidateServiceProviderWithSpalId(dependencyInjection, spalId);
+
+                return dependencyInjectionBroker.GetService<T>(
+                    dependencyInjection.ServiceProvider,
+                    spalId);
+            });
     }
 }

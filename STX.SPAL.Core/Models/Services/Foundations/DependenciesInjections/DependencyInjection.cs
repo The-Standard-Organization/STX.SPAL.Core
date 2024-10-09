@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections
 {
-    internal class DependencyInjection
+    public class DependencyInjection
     {
         public IServiceCollection ServiceCollection { get; init; }
         public IServiceProvider ServiceProvider { get; init; }

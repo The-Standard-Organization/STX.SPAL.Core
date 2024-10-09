@@ -17,17 +17,15 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorValidationExceptions))]
         private void ShouldThrowValidationExceptionIfInvalidParameters(
+            DependencyInjection someDependencyInjection,
             Type spalInterfaceType,
             Type implementationType,
             Xeption exception)
         {
-            dynamic randomProperties = CreateRandomProperties();
-            DependencyInjection someDependencyInjection = randomProperties.DependencyInjection;
-
             // given
             var expectedServiceCollectionValidationException =
                 new DependencyInjectionValidationException(
-                    message: "Service Collection validation error occurred, fix errors and try again.",
+                    message: "Dependency Injection validation error occurred, fix errors and try again.",
                     innerException: exception);
 
             this.dependencyInjectionBroker
@@ -48,7 +46,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 Assert.Throws<DependencyInjectionValidationException>(
                     registerServiceDescriptorFunction);
 
-            //then
+            // then
             actualServiceCollectionValidationException.Should().BeEquivalentTo(
                 expectedServiceCollectionValidationException);
 
@@ -65,18 +63,16 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorWithSpalIdValidationExceptions))]
         private void ShouldThrowValidationExceptionIfInvalidParametersWhenUsingSpalId(
+            DependencyInjection someDependencyInjection,
             Type spalInterfaceType,
             string spalId,
             Type implementationType,
             Xeption exception)
         {
-            dynamic randomProperties = CreateRandomProperties();
-            DependencyInjection someDependencyInjection = randomProperties.DependencyInjection;
-
             // given
             var expectedServiceCollectionValidationException =
                 new DependencyInjectionValidationException(
-                    message: "Service Collection validation error occurred, fix errors and try again.",
+                    message: "Dependency Injection validation error occurred, fix errors and try again.",
                     innerException: exception);
 
             this.dependencyInjectionBroker
@@ -98,7 +94,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 Assert.Throws<DependencyInjectionValidationException>(
                     registerServiceDescriptorFunction);
 
-            //then
+            // then
             actualServiceCollectionValidationException.Should().BeEquivalentTo(
                 expectedServiceCollectionValidationException);
 

@@ -30,7 +30,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             var expectedServiceCollectionValidationDependencyException =
                 new DependencyInjectionValidationDependencyException(
-                    message: "Service collection validation dependency error occurred, contact support.",
+                    message: "Dependency Injection validation dependency error occurred, contact support.",
                     innerException: addServiceDescriptorException);
 
             this.dependencyInjectionBroker
@@ -57,7 +57,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 Assert.Throws<DependencyInjectionValidationDependencyException>(
                     registerServiceDescriptorFunction);
 
-            //then
+            // then
             actualServiceCollectionValidationDependencyException.Should().BeEquivalentTo(
                 expectedServiceCollectionValidationDependencyException);
 
@@ -88,7 +88,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             var expectedServiceCollectionServiceException =
                 new DependencyInjectionServiceException(
-                    message: "ServiceCollection service error occurred, contact support.",
+                    message: "Dependency Injection service error occurred, contact support.",
                     innerException: assemblyLoadException);
 
             this.dependencyInjectionBroker
@@ -115,7 +115,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 Assert.Throws<DependencyInjectionServiceException>(
                     registerServiceDescriptorFunction);
 
-            //then
+            // then
             actualServiceCollectionServiceException.Should().BeEquivalentTo(
                 expectedServiceCollectionServiceException);
 

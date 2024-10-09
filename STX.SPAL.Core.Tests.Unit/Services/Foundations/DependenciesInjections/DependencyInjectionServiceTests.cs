@@ -29,7 +29,9 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         public DependencyInjectionServiceTests()
         {
-            this.dependencyInjectionBroker = new Mock<IDependencyInjectionBroker>();
+            this.dependencyInjectionBroker =
+                new Mock<IDependencyInjectionBroker>();
+
             this.compareLogic = new CompareLogic();
 
             this.dependencyInjectionService =
@@ -56,38 +58,75 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         private static Type CreateRandomSpalInterfaceType()
         {
+            Type iSpalBaseType = typeof(ISPALBase);
+
             AssemblyBuilder spalAssembly = CreateRandomAssembly();
             string assemblyName = spalAssembly.GetName().Name;
-            ModuleBuilder moduleBuilder = spalAssembly.DefineDynamicModule(assemblyName);
+            ModuleBuilder moduleBuilder =
+                spalAssembly.DefineDynamicModule(assemblyName);
 
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(
-                name: GetRandomString(),
-                attr: TypeAttributes.Public,
-                parent: null,
-                interfaces: new Type[]
-                {
-                    typeof(ISPALBase)
-                });
+            TypeBuilder typeBuilder =
+                moduleBuilder.DefineType(
+                    name: GetRandomString(),
+                    attr: TypeAttributes.Public
+                        | TypeAttributes.Interface
+                        | TypeAttributes.Abstract,
+                    parent: null,
+                    interfaces: new Type[]
+                    {
+                        iSpalBaseType
+                    });
 
-            return typeBuilder;
+            return typeBuilder.CreateType();
         }
 
         private static Type CreateRandomImplementationType()
         {
+            Type iSpalBaseType = typeof(ISPALBase);
+
             AssemblyBuilder spalAssembly = CreateRandomAssembly();
             string assemblyName = spalAssembly.GetName().Name;
-            ModuleBuilder moduleBuilder = spalAssembly.DefineDynamicModule(assemblyName);
+            ModuleBuilder moduleBuilder =
+                spalAssembly.DefineDynamicModule(assemblyName);
 
-            TypeBuilder typeBuilder = moduleBuilder.DefineType(
-                name: GetRandomString(),
-                attr: TypeAttributes.Public,
-                parent: null,
-                interfaces: new Type[]
-                {
-                    typeof(ISPALBase)
-                });
+            TypeBuilder typeBuilder =
+                moduleBuilder.DefineType(
+                    name: GetRandomString(),
+                    attr:
+                        TypeAttributes.Public
+                        | TypeAttributes.Class);
 
-            return typeBuilder;
+            typeBuilder.AddInterfaceImplementation(iSpalBaseType);
+
+            MethodInfo methodInfoGetSPALId =
+                iSpalBaseType
+                    .GetMethod(nameof(ISPALBase.GetSPALId));
+
+            MethodBuilder getSPALIDMethodBuilder =
+                typeBuilder
+                    .DefineMethod(
+                        name: nameof(ISPALBase.GetSPALId),
+                        attributes:
+                            MethodAttributes.Public
+                            | MethodAttributes.Final
+                            | MethodAttributes.HideBySig
+                            | MethodAttributes.NewSlot
+                            | MethodAttributes.Virtual,
+
+                        returnType: typeof(string),
+                        parameterTypes: Type.EmptyTypes);
+
+            ILGenerator ilGenerator =
+                getSPALIDMethodBuilder.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ldstr, "Hello SPAL ID");
+            ilGenerator.Emit(OpCodes.Ret);
+
+            typeBuilder.DefineMethodOverride(
+                getSPALIDMethodBuilder,
+                iSpalBaseType.GetMethod(nameof(ISPALBase.GetSPALId)));
+
+            return typeBuilder.CreateType();
         }
 
         private static ServiceLifetime CreateRandomServiceLifeTime()
@@ -141,10 +180,47 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             ServiceDescriptor expectedServiceDescriptor)
         {
             return actualServiceDescriptor =>
-                this.compareLogic.Compare(
-                    expectedServiceDescriptor,
-                    actualServiceDescriptor)
-                        .AreEqual;
+                this.compareLogic
+                    .Compare(
+                        expectedServiceDescriptor,
+                        actualServiceDescriptor)
+                    .AreEqual;
+        }
+
+        private Expression<Func<IServiceCollection, bool>> SameServiceCollectionAs(
+            IServiceCollection actualServiceCollection,
+            IServiceCollection expectedServiceCollection)
+        {
+            return actualServiceCollection =>
+                this.compareLogic
+                    .Compare(
+                        expectedServiceCollection,
+                        actualServiceCollection)
+                    .AreEqual;
+        }
+
+        private Expression<Func<IServiceProvider, bool>> SameServiceProviderAs(
+            IServiceProvider actualServiceProvider,
+            IServiceProvider expectedServiceProvider)
+        {
+            return actualServiceProvider =>
+                this.compareLogic
+                    .Compare(
+                        expectedServiceProvider,
+                        actualServiceProvider)
+                    .AreEqual;
+        }
+
+        private Expression<Func<DependencyInjection, bool>> SameDependencyInjectionAs(
+            DependencyInjection actualDependencyInjection,
+            DependencyInjection expectedDependencyInjection)
+        {
+            return actualDependencyInjection =>
+                this.compareLogic
+                    .Compare(
+                        expectedDependencyInjection,
+                        actualDependencyInjection)
+                    .AreEqual;
         }
 
         private static Xeption CreateInvalidServiceDescriptorParameterException(
@@ -168,11 +244,89 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             return invalidServiceDescriptorParameterException;
         }
 
-        public static TheoryData<Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
+        private static Xeption CreateInvalidServiceCollectionParameterException(
+            IDictionary<string, string> parameters)
         {
-            return new TheoryData<Type, Type, Xeption>
+            var invalidServiceCollectionParameterException =
+                new InvalidServiceCollectionParameterException(
+                    message: "Invalid service collection parameter error occurred, fix errors and try again.");
+
+            parameters
+                .Select(parameter =>
+                {
+                    invalidServiceCollectionParameterException.UpsertDataList(
+                        key: parameter.Key,
+                        value: parameter.Value);
+
+                    return invalidServiceCollectionParameterException;
+                })
+                .ToArray();
+
+            return invalidServiceCollectionParameterException;
+        }
+
+        private static Xeption CreateInvalidDependencyInjectionParameterException(
+            IDictionary<string, string> parameters)
+        {
+            var invalidDependencyInjectionParameterException =
+                new InvalidDependencyInjectionParameterException(
+                    message: "Invalid dependency injection parameter error occurred, fix errors and try again.");
+
+            parameters
+                .Select(parameter =>
+                {
+                    invalidDependencyInjectionParameterException.UpsertDataList(
+                        key: parameter.Key,
+                        value: parameter.Value);
+
+                    return invalidDependencyInjectionParameterException;
+                })
+                .ToArray();
+
+            return invalidDependencyInjectionParameterException;
+        }
+
+        private static Xeption CreateInvalidServiceProviderParameterException(
+            IDictionary<string, string> parameters)
+        {
+            var invalidServiceProviderParameterException =
+                new InvalidServiceProviderParameterException(
+                    message: "Invalid service provider parameter error occurred, fix errors and try again.");
+
+            parameters
+                .Select(parameter =>
+                {
+                    invalidServiceProviderParameterException.UpsertDataList(
+                        key: parameter.Key,
+                        value: parameter.Value);
+
+                    return invalidServiceProviderParameterException;
+                })
+                .ToArray();
+
+            return invalidServiceProviderParameterException;
+        }
+
+        public static TheoryData<DependencyInjection, Type, Type, Xeption> RegisterServiceDescriptorValidationExceptions()
+        {
+            dynamic randomProperties = CreateRandomProperties();
+            DependencyInjection someDependencyInjection = randomProperties.DependencyInjection;
+
+            return new TheoryData<DependencyInjection, Type, Type, Xeption>
             {
                 {
+                    null,
+                    null,
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     null,
                     CreateInvalidServiceDescriptorParameterException(
@@ -183,6 +337,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     CreateRandomImplementationType(),
                     CreateInvalidServiceDescriptorParameterException(
@@ -193,6 +348,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     null,
                     CreateInvalidServiceDescriptorParameterException(
@@ -205,11 +361,27 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             };
         }
 
-        public static TheoryData<Type, string, Type, Xeption> RegisterServiceDescriptorWithSpalIdValidationExceptions()
+        public static TheoryData<DependencyInjection, Type, string, Type, Xeption> RegisterServiceDescriptorWithSpalIdValidationExceptions()
         {
-            return new TheoryData<Type, string, Type, Xeption>
+            dynamic randomProperties = CreateRandomProperties();
+            DependencyInjection someDependencyInjection = randomProperties.DependencyInjection;
+
+            return new TheoryData<DependencyInjection, Type, string, Type, Xeption>
             {
                 {
+                    null,
+                    null,
+                    null,
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            { nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     GetRandomString(),
                     null,
@@ -221,6 +393,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     GetRandomString(),
                     CreateRandomImplementationType(),
@@ -232,6 +405,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     GetRandomString(),
                     null,
@@ -244,6 +418,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     null,
                     null,
@@ -256,6 +431,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     null,
                     CreateRandomImplementationType(),
@@ -268,6 +444,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     null,
                     null,
@@ -281,6 +458,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     "",
                     null,
@@ -293,6 +471,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     "",
                     CreateRandomImplementationType(),
@@ -305,6 +484,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     "",
                     null,
@@ -318,6 +498,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     CreateRandomSpalInterfaceType(),
                     " ",
                     null,
@@ -330,6 +511,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     " ",
                     CreateRandomImplementationType(),
@@ -342,6 +524,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                 },
 
                 {
+                    someDependencyInjection,
                     null,
                     " ",
                     null,
@@ -369,6 +552,130 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             return new TheoryData<Exception>
             {
                 new Exception()
+            };
+        }
+
+        public static TheoryData<DependencyInjection, Xeption> BuildServiceProviderValidationExceptions()
+        {
+            return new TheoryData<DependencyInjection, Xeption>
+            {
+                {
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection(),
+                    CreateInvalidServiceCollectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceCollection), "object is required" }
+                        })
+                },
+            };
+        }
+
+        public static TheoryData<DependencyInjection, Xeption> GetServiceValidationExceptions()
+        {
+            return new TheoryData<DependencyInjection, Xeption>
+            {
+                {
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection(),
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceProvider), "object is required" }
+                        })
+                },
+            };
+        }
+
+        public static TheoryData<DependencyInjection, string, Xeption> GetServiceWithSpalValidationExceptions()
+        {
+            return new TheoryData<DependencyInjection, string, Xeption>
+            {
+                {
+                    null,
+                    null,
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection(),
+                    null,
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceProvider), "object is required" },
+                            {"spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection
+                    {
+                        ServiceCollection = new ServiceCollection(),
+                        ServiceProvider = new ServiceCollection().BuildServiceProvider()
+                    },
+                    null,
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {"spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    null,
+                    " ",
+                    CreateInvalidDependencyInjectionParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(DependencyInjection), "object is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection(),
+                    " ",
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {nameof(ServiceProvider), "object is required" },
+                            {"spalId", "Value is required" }
+                        })
+                },
+
+                {
+                    new DependencyInjection
+                    {
+                        ServiceCollection = new ServiceCollection(),
+                        ServiceProvider = new ServiceCollection().BuildServiceProvider()
+                    },
+                    " ",
+                    CreateInvalidServiceProviderParameterException(
+                        new Dictionary<string, string>
+                        {
+                            {"spalId", "Value is required" }
+                        })
+                },
             };
         }
     }
