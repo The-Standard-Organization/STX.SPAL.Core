@@ -72,7 +72,7 @@ namespace STX.SPAL.Core.Infrastructure.Build.Services
 
                                     With = new TargetDotNetVersionV3
                                     {
-                                        DotNetVersion = "8.0.10"
+                                        DotNetVersion = "8.0.402"
                                     }
                                 },
 
