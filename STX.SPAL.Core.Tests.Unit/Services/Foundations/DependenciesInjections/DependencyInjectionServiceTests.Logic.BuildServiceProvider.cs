@@ -2,6 +2,7 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -12,7 +13,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     public partial class DependencyInjectionServiceTests
     {
         [Fact]
-        private void ShouldBuildServiceProvider()
+        private async Task ShouldBuildServiceProvider()
         {
             // given
             dynamic randomProperties = CreateRandomProperties();
@@ -36,18 +37,18 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.BuildServiceProvider(
+                    broker.BuildServiceProviderAsync(
                         It.Is<IServiceCollection>(actualServiceCollection =>
                             SameServiceCollectionAs(
                                 actualServiceCollection,
                                 expectedDependencyInjection.ServiceCollection)
                             .Compile()
                             .Invoke(inputDependencyInjection.ServiceCollection))))
-                .Returns(returnedDependencyInjection.ServiceProvider);
+                .ReturnsAsync(returnedDependencyInjection.ServiceProvider);
 
             // when
             DependencyInjection actualDependencyInjection =
-               this.dependencyInjectionService.BuildServiceProvider(
+               await this.dependencyInjectionService.BuildServiceProviderAsync(
                    inputProperties.DependencyInjection);
 
             // then
@@ -55,7 +56,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.BuildServiceProvider(
+                    broker.BuildServiceProviderAsync(
                         It.Is<IServiceCollection>(actualServiceCollection =>
                             SameServiceCollectionAs(
                                 actualServiceCollection,

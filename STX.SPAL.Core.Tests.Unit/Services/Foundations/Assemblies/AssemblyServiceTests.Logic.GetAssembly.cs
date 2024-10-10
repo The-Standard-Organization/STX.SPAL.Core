@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 
@@ -11,7 +12,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     public partial class AssemblyServiceTests
     {
         [Fact]
-        private void ShouldGetAssembly()
+        private async Task ShouldGetAssembly()
         {
             // given
             Assembly randomAssembly = CreateRandomAssembly();
@@ -22,21 +23,21 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Setup(broker =>
-                    broker.GetAssembly(
+                    broker.GetAssemblyAsync(
                         It.Is<string>(actualPathAssembly =>
                             actualPathAssembly == inputPathAssembly)))
-                .Returns(returnedAssembly);
+                .ReturnsAsync(returnedAssembly);
 
             // when
             Assembly actualAssembly =
-               this.assemblyService.GetAssembly(inputPathAssembly);
+               await this.assemblyService.GetAssemblyAsync(inputPathAssembly);
 
             // then
             actualAssembly.Should().BeSameAs(expectedAssembly);
 
             this.assemblyBroker.Verify(
                 broker =>
-                    broker.GetAssembly(
+                    broker.GetAssemblyAsync(
                         It.Is<string>(actualPathAssembly =>
                             actualPathAssembly == inputPathAssembly)),
                     Times.Once);

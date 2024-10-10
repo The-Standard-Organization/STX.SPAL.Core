@@ -3,19 +3,20 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace STX.SPAL.Core.Brokers.DependenciesInjections
 {
     internal partial class DependencyInjectionBroker
     {
-        public IServiceProvider BuildServiceProvider(IServiceCollection serviceCollection) =>
+        public async ValueTask<IServiceProvider> BuildServiceProviderAsync(IServiceCollection serviceCollection) =>
             serviceCollection.BuildServiceProvider();
 
-        public T GetService<T>(IServiceProvider serviceProvider) =>
+        public async ValueTask<T> GetServiceAsync<T>(IServiceProvider serviceProvider) =>
             serviceProvider.GetRequiredService<T>();
 
-        public T GetService<T>(IServiceProvider serviceProvider, string spalId) =>
+        public async ValueTask<T> GetServiceAsync<T>(IServiceProvider serviceProvider, string spalId) =>
             serviceProvider.GetRequiredKeyedService<T>(spalId);
     }
 }

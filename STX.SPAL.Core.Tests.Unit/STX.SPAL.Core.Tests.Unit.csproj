@@ -6,6 +6,7 @@
     <Nullable>disable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <WarningLevel>1998</WarningLevel>
   </PropertyGroup>
 
 	<ItemGroup>

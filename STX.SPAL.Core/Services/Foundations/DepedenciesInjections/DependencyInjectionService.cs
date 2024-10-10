@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using STX.SPAL.Core.Brokers.DependenciesInjections;
 using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
@@ -16,12 +17,12 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
         public DependencyInjectionService(IDependencyInjectionBroker dependencyInjectionBroker) =>
             this.dependencyInjectionBroker = dependencyInjectionBroker;
 
-        public DependencyInjection RegisterServiceDescriptor(
+        public ValueTask<DependencyInjection> RegisterServiceDescriptorAsync(
             DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             Type implementationType,
             ServiceLifetime serviceLifetime) =>
-        TryCatch(() =>
+        TryCatch(async () =>
         {
             ValidateDependencyInjection(dependencyInjection);
             ValidateServiceDescriptorTypes(spalInterfaceType, implementationType);
@@ -29,20 +30,20 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             ServiceDescriptor serviceDescriptor =
                 new ServiceDescriptor(spalInterfaceType, implementationType, serviceLifetime);
 
-            dependencyInjectionBroker.AddServiceDescriptor(
+            await dependencyInjectionBroker.AddServiceDescriptorAsync(
                 dependencyInjection.ServiceCollection,
                 serviceDescriptor);
 
             return dependencyInjection;
         });
 
-        public DependencyInjection RegisterServiceDescriptor(
+        public ValueTask<DependencyInjection> RegisterServiceDescriptorAsync(
             DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             string spalId,
             Type implementationType,
             ServiceLifetime serviceLifetime) =>
-        TryCatch(() =>
+        TryCatch(async () =>
         {
             ValidateDependencyInjection(dependencyInjection);
             ValidateServiceDescriptorTypesWithSpalId(spalInterfaceType, spalId, implementationType);
@@ -50,20 +51,20 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             ServiceDescriptor serviceDescriptor =
                new ServiceDescriptor(spalInterfaceType, spalId, implementationType, serviceLifetime);
 
-            dependencyInjectionBroker.AddServiceDescriptor(
+            await dependencyInjectionBroker.AddServiceDescriptorAsync(
                 dependencyInjection.ServiceCollection,
                 serviceDescriptor);
 
             return dependencyInjection;
         });
 
-        public DependencyInjection BuildServiceProvider(DependencyInjection dependencyInjection) =>
-            TryCatch(() =>
+        public ValueTask<DependencyInjection> BuildServiceProviderAsync(DependencyInjection dependencyInjection) =>
+            TryCatch(async () =>
             {
                 ValidateServiceCollection(dependencyInjection);
 
                 IServiceProvider serviceProvider =
-                    dependencyInjectionBroker.BuildServiceProvider(
+                    await dependencyInjectionBroker.BuildServiceProviderAsync(
                         dependencyInjection.ServiceCollection);
 
                 return new DependencyInjection
@@ -73,21 +74,21 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
                 };
             });
 
-        public T GetService<T>(DependencyInjection dependencyInjection) =>
-            TryCatchGetService(() =>
+        public ValueTask<T> GetServiceAsync<T>(DependencyInjection dependencyInjection) =>
+            TryCatchGetService(async () =>
             {
                 ValidateServiceProvider(dependencyInjection);
 
-                return dependencyInjectionBroker.GetService<T>(
+                return await dependencyInjectionBroker.GetServiceAsync<T>(
                     dependencyInjection.ServiceProvider);
             });
 
-        public T GetService<T>(DependencyInjection dependencyInjection, string spalId) =>
-            TryCatchGetService(() =>
+        public ValueTask<T> GetServiceAsync<T>(DependencyInjection dependencyInjection, string spalId) =>
+            TryCatchGetService(async () =>
             {
                 ValidateServiceProviderWithSpalId(dependencyInjection, spalId);
 
-                return dependencyInjectionBroker.GetService<T>(
+                return await dependencyInjectionBroker.GetServiceAsync<T>(
                     dependencyInjection.ServiceProvider,
                     spalId);
             });

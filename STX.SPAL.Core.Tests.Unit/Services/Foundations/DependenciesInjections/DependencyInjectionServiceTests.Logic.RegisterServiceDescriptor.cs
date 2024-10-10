@@ -2,6 +2,7 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
+using System.Threading.Tasks;
 using FluentAssertions;
 using Force.DeepCloner;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,7 +14,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     public partial class DependencyInjectionServiceTests
     {
         [Fact]
-        private void ShouldRegisterServiceDescriptor()
+        private async Task ShouldRegisterServiceDescriptor()
         {
             // given
             dynamic randomProperties = CreateRandomProperties();
@@ -32,7 +33,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
@@ -40,11 +41,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                                 expectedServiceDescriptor)
                             .Compile()
                             .Invoke(actualServiceDescriptor))))
-                .Returns(returnedDependencyInjection.ServiceCollection);
+                .ReturnsAsync(returnedDependencyInjection.ServiceCollection);
 
             // when
             DependencyInjection actualDependencyInjection =
-               this.dependencyInjectionService.RegisterServiceDescriptor(
+               await this.dependencyInjectionService.RegisterServiceDescriptorAsync(
                    inputProperties.DependencyInjection,
                    inputProperties.SpalInterfaceType,
                    inputProperties.ImplementationType,
@@ -55,7 +56,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
@@ -69,7 +70,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
         }
 
         [Fact]
-        private void ShouldRegisterServiceDescriptorWithSpalId()
+        private async Task ShouldRegisterServiceDescriptorWithSpalId()
         {
             // given
             dynamic randomProperties = CreateRandomProperties();
@@ -88,7 +89,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
@@ -96,11 +97,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                                 expectedServiceDescriptor)
                             .Compile()
                             .Invoke(actualServiceDescriptor))))
-                .Returns(returnedDependencyInjection.ServiceCollection);
+                .ReturnsAsync(returnedDependencyInjection.ServiceCollection);
 
             // when
             DependencyInjection actualDependencyInjection =
-               this.dependencyInjectionService.RegisterServiceDescriptor(
+               await this.dependencyInjectionService.RegisterServiceDescriptorAsync(
                    inputProperties.DependencyInjection,
                    inputProperties.SpalInterfaceType,
                    inputProperties.SpalId,
@@ -112,7 +113,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
