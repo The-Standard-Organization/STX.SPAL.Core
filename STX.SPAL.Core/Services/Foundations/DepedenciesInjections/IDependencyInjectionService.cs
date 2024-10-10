@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
 
@@ -10,26 +11,26 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 {
     internal partial interface IDependencyInjectionService
     {
-        DependencyInjection RegisterServiceDescriptor(
+        ValueTask<DependencyInjection> RegisterServiceDescriptorAsync(
             DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             Type implementationType,
             ServiceLifetime serviceLifetime);
 
-        DependencyInjection RegisterServiceDescriptor(
+        ValueTask<DependencyInjection> RegisterServiceDescriptorAsync(
             DependencyInjection dependencyInjection,
             Type spalInterfaceType,
             string spalId,
             Type implementationType,
             ServiceLifetime serviceLifetime);
 
-        DependencyInjection BuildServiceProvider(
+        ValueTask<DependencyInjection> BuildServiceProviderAsync(
             DependencyInjection dependencyInjection);
 
-        T GetService<T>(
+        ValueTask<T> GetServiceAsync<T>(
             DependencyInjection dependencyInjection);
 
-        T GetService<T>(
+        ValueTask<T> GetServiceAsync<T>(
             DependencyInjection dependencyInjection,
             string spalId);
     }

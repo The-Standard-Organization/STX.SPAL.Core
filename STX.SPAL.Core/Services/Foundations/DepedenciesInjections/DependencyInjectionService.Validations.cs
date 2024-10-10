@@ -107,14 +107,24 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
         private static void ValidateDependencyInjection(DependencyInjection dependencyInjection)
         {
             ValidateDependencyInjection(
-                (Rule: IsInvalidObject(dependencyInjection), Parameter: nameof(DependencyInjection)));
+                (Rule:
+                    IsInvalidObject(dependencyInjection),
+                Parameter:
+                    nameof(DependencyInjection)));
         }
 
         private static void ValidateServiceDescriptorTypes(Type spalInterfaceType, Type implementationType)
         {
             ValidateServiceDescriptor(
-                (Rule: IsInvalidType(spalInterfaceType), Parameter: nameof(spalInterfaceType)),
-                (Rule: IsInvalidType(implementationType), Parameter: nameof(implementationType)));
+                (Rule:
+                    IsInvalidType(spalInterfaceType),
+                Parameter:
+                    nameof(spalInterfaceType)),
+
+                (Rule:
+                    IsInvalidType(implementationType),
+                Parameter:
+                    nameof(implementationType)));
         }
 
         private static void ValidateServiceDescriptorTypesWithSpalId(
@@ -123,15 +133,29 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             Type implementationType)
         {
             ValidateServiceDescriptor(
-                (Rule: IsInvalidType(spalInterfaceType), Parameter: nameof(spalInterfaceType)),
-                (Rule: IsInvalid(spalId), Parameter: nameof(spalId)),
-                (Rule: IsInvalidType(implementationType), Parameter: nameof(implementationType)));
+                (Rule:
+                    IsInvalidType(spalInterfaceType),
+                Parameter:
+                    nameof(spalInterfaceType)),
+
+                (Rule:
+                    IsInvalid(spalId),
+                Parameter:
+                    nameof(spalId)),
+
+                (Rule:
+                    IsInvalidType(implementationType),
+                Parameter:
+                    nameof(implementationType)));
         }
 
         private static void ValidateServiceCollection(DependencyInjection dependencyInjection)
         {
             ValidateDependencyInjection(
-                (Rule: IsInvalidObject(dependencyInjection), Parameter: nameof(DependencyInjection)));
+                (Rule:
+                    IsInvalidObject(dependencyInjection),
+                Parameter:
+                    nameof(DependencyInjection)));
 
             ValidateServiceCollection(
                 (Rule:

@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections;
 using STX.SPAL.Core.Models.Services.Foundations.DependenciesInjections.Exceptions;
 using Xeptions;
@@ -11,15 +12,15 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
 {
     internal partial class DependencyInjectionService
     {
-        private delegate DependencyInjection ReturningDependencyInjectionFunction();
-        private delegate T ReturningGetServiceDependencyInjectionFunction<T>();
+        private delegate ValueTask<DependencyInjection> ReturningDependencyInjectionFunction();
+        private delegate ValueTask<T> ReturningGetServiceDependencyInjectionFunction<T>();
 
-        private static DependencyInjection TryCatch(
+        private async static ValueTask<DependencyInjection> TryCatch(
             ReturningDependencyInjectionFunction returningDependencyInjectionFunction)
         {
             try
             {
-                return returningDependencyInjectionFunction();
+                return await returningDependencyInjectionFunction();
             }
 
             catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)
@@ -69,12 +70,12 @@ namespace STX.SPAL.Core.Services.Foundations.DependenciesInjections
             }
         }
 
-        private static T TryCatchGetService<T>(
+        private async static ValueTask<T> TryCatchGetService<T>(
             ReturningGetServiceDependencyInjectionFunction<T> returningGetServiceDependencyInjectionFunction)
         {
             try
             {
-                return returningGetServiceDependencyInjectionFunction();
+                return await returningGetServiceDependencyInjectionFunction();
             }
 
             catch (InvalidDependencyInjectionParameterException invalidDependencyInjectionParameterException)

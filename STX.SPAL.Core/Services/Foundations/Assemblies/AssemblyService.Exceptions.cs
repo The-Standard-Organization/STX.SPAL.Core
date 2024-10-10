@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Security;
+using System.Threading.Tasks;
 using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
 using Xeptions;
 
@@ -13,13 +14,13 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
 {
     internal partial class AssemblyService
     {
-        private delegate Assembly ReturningAssemblyFunction();
+        private delegate ValueTask<Assembly> ReturningAssemblyFunction();
 
-        private static Assembly TryCatch(ReturningAssemblyFunction returningAssemblyFunction)
+        private async static ValueTask<Assembly> TryCatch(ReturningAssemblyFunction returningAssemblyFunction)
         {
             try
             {
-                return returningAssemblyFunction();
+                return await returningAssemblyFunction();
             }
 
             catch (InvalidAssemblyPathException invalidAssemblyPathException)

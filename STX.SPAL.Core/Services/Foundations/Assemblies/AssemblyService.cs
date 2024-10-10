@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Threading.Tasks;
 using STX.SPAL.Core.Brokers.Assemblies;
 
 namespace STX.SPAL.Core.Services.Foundations.Assemblies
@@ -14,15 +15,15 @@ namespace STX.SPAL.Core.Services.Foundations.Assemblies
         public AssemblyService(IAssemblyBroker assemblyBroker) =>
             this.assemblyBroker = assemblyBroker;
 
-        public string[] GetApplicationPathsAssemblies() =>
-            this.assemblyBroker.GetApplicationPathsAssemblies();
+        public async ValueTask<string[]> GetApplicationPathsAssembliesAsync() =>
+            await this.assemblyBroker.GetApplicationPathsAssembliesAsync();
 
-        public Assembly GetAssembly(string assemblyPath) =>
-            TryCatch(() =>
+        public ValueTask<Assembly> GetAssemblyAsync(string assemblyPath) =>
+            TryCatch(async () =>
             {
                 ValidateAssemblyPath(assemblyPath);
 
-                return this.assemblyBroker.GetAssembly(assemblyPath);
+                return await this.assemblyBroker.GetAssemblyAsync(assemblyPath);
             });
     }
 }
