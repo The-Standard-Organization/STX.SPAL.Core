@@ -35,11 +35,6 @@ jobs:
       with:
         github-token: ${{ secrets.PAT_FOR_TAGGING }}
         script: >2
-        
-          if (!context.payload.pull_request) {
-            console.log('Not a pull request, skipping label script routine');
-            return;
-          }
 
           const prefixes = [
             'INFRA:',
@@ -74,9 +69,20 @@ jobs:
             'BUSINESS:'
           ];
 
+
+          const pullRequest = context.payload.pull_request;
+
+
+          if (!pullRequest) {
+            console.log('No pull request context available.');
+            return;
+          }
+
+
           const title = context.payload.pull_request.title;
 
           const existingLabels = context.payload.pull_request.labels.map(label => label.name);
+
 
           for (const prefix of prefixes) {
             if (title.startsWith(prefix)) {
@@ -101,7 +107,7 @@ jobs:
     - name: Setup .Net
       uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 7.0.201
+        dotnet-version: 8.0.402
     - name: Restore
       run: dotnet restore
     - name: Build
