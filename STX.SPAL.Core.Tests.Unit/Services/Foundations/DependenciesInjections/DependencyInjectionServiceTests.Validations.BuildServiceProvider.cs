@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -16,7 +17,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(BuildServiceProviderValidationExceptions))]
-        private void ShouldThrowValidationExceptionIfInvalidParametersOnBuildServiceProvider(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnBuildServiceProviderAsync(
             DependencyInjection someDependencyInjection,
             Xeption exception)
         {
@@ -28,16 +29,18 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.BuildServiceProvider(
+                    broker.BuildServiceProviderAsync(
                         It.IsAny<IServiceCollection>()));
 
             // when
-            Func<DependencyInjection> buildServiceProviderFunction = () =>
-                this.dependencyInjectionService.BuildServiceProvider(
-                    someDependencyInjection);
+            Func<Task<DependencyInjection>> buildServiceProviderFunction =
+                () =>
+                    this.dependencyInjectionService.BuildServiceProviderAsync(
+                        someDependencyInjection)
+                    .AsTask();
 
             DependencyInjectionValidationException actualDependencyInjectionValidationException =
-                Assert.Throws<DependencyInjectionValidationException>(
+                await Assert.ThrowsAsync<DependencyInjectionValidationException>(
                     buildServiceProviderFunction);
 
             // then
@@ -46,7 +49,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Verify(broker =>
-                    broker.BuildServiceProvider(
+                    broker.BuildServiceProviderAsync(
                         It.IsAny<IServiceCollection>()),
                 Times.Never);
 

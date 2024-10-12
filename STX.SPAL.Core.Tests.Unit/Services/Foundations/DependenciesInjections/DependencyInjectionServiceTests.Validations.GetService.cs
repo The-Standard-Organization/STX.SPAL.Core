@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using STX.SPAL.Abstractions;
@@ -16,7 +17,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(GetServiceValidationExceptions))]
-        private void ShouldThrowValidationExceptionIfInvalidParametersOnGetService(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnGetServiceAsync(
             DependencyInjection someDependencyInjection,
             Xeption exception)
         {
@@ -28,16 +29,18 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.IsAny<IServiceProvider>()));
 
             // when
-            Func<ISPALBase> getServiceFunction = () =>
-                this.dependencyInjectionService.GetService<ISPALBase>(
-                    someDependencyInjection);
+            Func<Task<ISPALBase>> getServiceFunction =
+                () =>
+                    this.dependencyInjectionService.GetServiceAsync<ISPALBase>(
+                        someDependencyInjection)
+                    .AsTask();
 
             DependencyInjectionValidationException actualDependencyInjectionValidationException =
-                Assert.Throws<DependencyInjectionValidationException>(
+                await Assert.ThrowsAsync<DependencyInjectionValidationException>(
                     getServiceFunction);
 
             // then
@@ -46,7 +49,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Verify(broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.IsAny<IServiceProvider>()),
                 Times.Never);
 
@@ -55,7 +58,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         [Theory]
         [MemberData(nameof(GetServiceWithSpalValidationExceptions))]
-        private void ShouldThrowValidationExceptionIfInvalidParametersOnGetServiceWithSpal(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnGetServiceWithSpalAsync(
             DependencyInjection someDependencyInjection,
             string someSpalId,
             Xeption exception)
@@ -68,18 +71,20 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.IsAny<IServiceProvider>(),
                         It.IsAny<string>()));
 
             // when
-            Func<ISPALBase> getServiceFunction = () =>
-                this.dependencyInjectionService.GetService<ISPALBase>(
-                    someDependencyInjection,
-                    someSpalId);
+            Func<Task<ISPALBase>> getServiceFunction =
+                () =>
+                    this.dependencyInjectionService.GetServiceAsync<ISPALBase>(
+                        someDependencyInjection,
+                        someSpalId)
+                    .AsTask();
 
             DependencyInjectionValidationException actualDependencyInjectionValidationException =
-                Assert.Throws<DependencyInjectionValidationException>(
+                await Assert.ThrowsAsync<DependencyInjectionValidationException>(
                     getServiceFunction);
 
             // then
@@ -88,7 +93,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Verify(broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.IsAny<IServiceProvider>(),
                         It.IsAny<string>()),
                 Times.Never);

@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -16,7 +17,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorValidationExceptions))]
-        private void ShouldThrowValidationExceptionIfInvalidParameters(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersAsync(
             DependencyInjection someDependencyInjection,
             Type spalInterfaceType,
             Type implementationType,
@@ -30,20 +31,22 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.IsAny<ServiceDescriptor>()));
 
             // when
-            Func<DependencyInjection> registerServiceDescriptorFunction = () =>
-                this.dependencyInjectionService.RegisterServiceDescriptor(
-                    someDependencyInjection,
-                    spalInterfaceType,
-                    implementationType,
-                    ServiceLifetime.Singleton);
+            Func<Task<DependencyInjection>> registerServiceDescriptorFunction =
+                () =>
+                    this.dependencyInjectionService.RegisterServiceDescriptorAsync(
+                        someDependencyInjection,
+                        spalInterfaceType,
+                        implementationType,
+                        ServiceLifetime.Singleton)
+                    .AsTask();
 
             DependencyInjectionValidationException actualServiceCollectionValidationException =
-                Assert.Throws<DependencyInjectionValidationException>(
+                await Assert.ThrowsAsync<DependencyInjectionValidationException>(
                     registerServiceDescriptorFunction);
 
             // then
@@ -52,7 +55,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Verify(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.IsAny<ServiceDescriptor>()),
                 Times.Never);
@@ -62,7 +65,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorWithSpalIdValidationExceptions))]
-        private void ShouldThrowValidationExceptionIfInvalidParametersWhenUsingSpalId(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersWhenUsingSpalIdAsync(
             DependencyInjection someDependencyInjection,
             Type spalInterfaceType,
             string spalId,
@@ -77,21 +80,23 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.IsAny<ServiceDescriptor>()));
 
             // when
-            Func<DependencyInjection> registerServiceDescriptorFunction = () =>
-                this.dependencyInjectionService.RegisterServiceDescriptor(
-                    someDependencyInjection,
-                    spalInterfaceType,
-                    spalId,
-                    implementationType,
-                    ServiceLifetime.Singleton);
+            Func<Task<DependencyInjection>> registerServiceDescriptorFunction =
+                () =>
+                    this.dependencyInjectionService.RegisterServiceDescriptorAsync(
+                        someDependencyInjection,
+                        spalInterfaceType,
+                        spalId,
+                        implementationType,
+                        ServiceLifetime.Singleton)
+                    .AsTask();
 
             DependencyInjectionValidationException actualServiceCollectionValidationException =
-                Assert.Throws<DependencyInjectionValidationException>(
+                await Assert.ThrowsAsync<DependencyInjectionValidationException>(
                     registerServiceDescriptorFunction);
 
             // then
@@ -100,7 +105,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Verify(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         It.IsAny<IServiceCollection>(),
                         It.IsAny<ServiceDescriptor>()),
                 Times.Never);

@@ -3,12 +3,13 @@
 // ----------------------------------------------------------------------------------
 
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace STX.SPAL.Core.Services.Foundations.Assemblies
 {
     internal interface IAssemblyService
     {
-        string[] GetApplicationPathsAssemblies();
-        Assembly GetAssembly(string fullPath);
+        ValueTask<string[]> GetApplicationPathsAssembliesAsync();
+        ValueTask<Assembly> GetAssemblyAsync(string fullPath);
     }
 }

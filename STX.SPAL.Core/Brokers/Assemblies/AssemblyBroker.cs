@@ -4,6 +4,7 @@
 
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace STX.SPAL.Core.Brokers.Assemblies
 {
@@ -22,10 +23,10 @@ namespace STX.SPAL.Core.Brokers.Assemblies
                 Directory.GetFiles(applicationPath, "*.dll");
         }
 
-        public string[] GetApplicationPathsAssemblies() =>
+        public async ValueTask<string[]> GetApplicationPathsAssembliesAsync() =>
             applicationPathsAssemblies;
 
-        public Assembly GetAssembly(string assemblyPath) =>
+        public async ValueTask<Assembly> GetAssemblyAsync(string assemblyPath) =>
             Assembly.LoadFrom(assemblyPath);
     }
 }

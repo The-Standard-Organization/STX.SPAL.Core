@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -15,7 +16,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorValidationDependencyExceptions))]
-        private void ShouldThrowValidationDependencyExceptionOnRegisterServiceDescriptorIfExternalExceptionOccurs(
+        private async Task ShouldThrowValidationDependencyExceptionOnRegisterServiceDescriptorIfExternalExceptionOccursAsync(
             Exception externalException)
         {
             // given
@@ -35,7 +36,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         someDependencyInjection.ServiceCollection,
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
@@ -43,18 +44,20 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                                 someServiceDescriptor)
                             .Compile()
                             .Invoke(actualServiceDescriptor))))
-                .Throws(externalException);
+                .ThrowsAsync(externalException);
 
             // when
-            Func<DependencyInjection> registerServiceDescriptorFunction = () =>
-                this.dependencyInjectionService.RegisterServiceDescriptor(
-                    randomProperties.DependencyInjection,
-                    randomProperties.SpalInterfaceType,
-                    randomProperties.ImplementationType,
-                    randomProperties.ServiceLifeTime);
+            Func<Task<DependencyInjection>> registerServiceDescriptorFunction =
+                () =>
+                    this.dependencyInjectionService.RegisterServiceDescriptorAsync(
+                        randomProperties.DependencyInjection,
+                        randomProperties.SpalInterfaceType,
+                        randomProperties.ImplementationType,
+                        randomProperties.ServiceLifeTime)
+                    .AsTask();
 
             DependencyInjectionValidationDependencyException actualServiceCollectionValidationDependencyException =
-                Assert.Throws<DependencyInjectionValidationDependencyException>(
+                await Assert.ThrowsAsync<DependencyInjectionValidationDependencyException>(
                     registerServiceDescriptorFunction);
 
             // then
@@ -63,7 +66,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Verify(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         someDependencyInjection.ServiceCollection,
                         It.IsAny<ServiceDescriptor>()),
                 Times.Once);
@@ -73,7 +76,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorServiceExceptions))]
-        private void ShouldThrowServiceExceptionOnRegisterServiceDescriptorIfExceptionOccurs(
+        private async Task ShouldThrowServiceExceptionOnRegisterServiceDescriptorIfExceptionOccursAsync(
             Exception externalException)
         {
             // given
@@ -86,14 +89,14 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                     message: "Failed service error occurred, contact support.",
                     innerException: externalException);
 
-            var expectedServiceCollectionServiceException =
+            var expectedDependencyInjectionServiceException =
                 new DependencyInjectionServiceException(
                     message: "Dependency Injection service error occurred, contact support.",
                     innerException: assemblyLoadException);
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         someDependencyInjection.ServiceCollection,
                         It.Is<ServiceDescriptor>(actualServiceDescriptor =>
                             SameServiceDescriptorAs(
@@ -101,27 +104,29 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                                 someServiceDescriptor)
                             .Compile()
                             .Invoke(actualServiceDescriptor))))
-                .Throws(externalException);
+                .ThrowsAsync(externalException);
 
             // when
-            Func<IServiceCollection> registerServiceDescriptorFunction = () =>
-                this.dependencyInjectionService.RegisterServiceDescriptor(
-                    someDependencyInjection,
-                    randomProperties.SpalInterfaceType,
-                    randomProperties.ImplementationType,
-                    randomProperties.ServiceLifeTime);
+            Func<Task<DependencyInjection>> registerServiceDescriptorFunction =
+                () =>
+                    this.dependencyInjectionService.RegisterServiceDescriptorAsync(
+                        someDependencyInjection,
+                        randomProperties.SpalInterfaceType,
+                        randomProperties.ImplementationType,
+                        randomProperties.ServiceLifeTime)
+                    .AsTask();
 
-            DependencyInjectionServiceException actualServiceCollectionServiceException =
-                Assert.Throws<DependencyInjectionServiceException>(
+            DependencyInjectionServiceException actualDependencyInjectionServiceException =
+                await Assert.ThrowsAsync<DependencyInjectionServiceException>(
                     registerServiceDescriptorFunction);
 
             // then
-            actualServiceCollectionServiceException.Should().BeEquivalentTo(
-                expectedServiceCollectionServiceException);
+            actualDependencyInjectionServiceException.Should().BeEquivalentTo(
+                expectedDependencyInjectionServiceException);
 
             this.dependencyInjectionBroker
                 .Verify(broker =>
-                    broker.AddServiceDescriptor(
+                    broker.AddServiceDescriptorAsync(
                         someDependencyInjection.ServiceCollection,
                         It.IsAny<ServiceDescriptor>()),
                 Times.Once);

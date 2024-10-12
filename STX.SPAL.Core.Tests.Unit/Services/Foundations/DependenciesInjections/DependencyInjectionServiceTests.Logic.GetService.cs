@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------------
 
 using System;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Force.DeepCloner;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     public partial class DependencyInjectionServiceTests
     {
         [Fact]
-        private void ShouldGetService()
+        private async Task ShouldGetServiceAsync()
         {
             // given
             dynamic randomProperties = CreateRandomProperties();
@@ -25,7 +26,9 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             ServiceDescriptor inputServiceDescriptor = randomServiceDescriptor;
             ServiceDescriptor expectedServiceDescriptor = inputServiceDescriptor;
 
-            IServiceCollection inputServiceCollection = inputProperties.DependencyInjection.ServiceCollection;
+            IServiceCollection inputServiceCollection =
+                inputProperties.DependencyInjection.ServiceCollection;
+
             inputServiceCollection.Add(inputServiceDescriptor);
 
             DependencyInjection inputDependencyInjection =
@@ -47,18 +50,18 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.Is<IServiceProvider>(actualServiceProvider =>
                             SameServiceProviderAs(
                                 actualServiceProvider,
                                 expectedDependencyInjection.ServiceProvider)
                             .Compile()
                             .Invoke(inputDependencyInjection.ServiceProvider))))
-                .Returns(returnedService);
+                .ReturnsAsync(returnedService);
 
             // when
             ISPALBase actualService =
-               this.dependencyInjectionService.GetService<ISPALBase>(
+               await this.dependencyInjectionService.GetServiceAsync<ISPALBase>(
                    inputDependencyInjection);
 
             //then
@@ -66,7 +69,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.Is<IServiceProvider>(actualServiceProvider =>
                             SameServiceProviderAs(
                                 actualServiceProvider,
@@ -79,7 +82,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
         }
 
         [Fact]
-        private void ShouldGetServiceWithSpalId()
+        private async Task ShouldGetServiceWithSpalIdAsync()
         {
             // given
             dynamic randomProperties = CreateRandomProperties();
@@ -90,7 +93,9 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
             ServiceDescriptor expectedServiceDescriptor = inputServiceDescriptor;
 
 
-            IServiceCollection inputServiceCollection = inputProperties.DependencyInjection.ServiceCollection;
+            IServiceCollection inputServiceCollection =
+                inputProperties.DependencyInjection.ServiceCollection;
+
             inputServiceCollection.Add(inputServiceDescriptor);
 
             DependencyInjection inputDependencyInjection =
@@ -112,7 +117,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker
                 .Setup(broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.Is<IServiceProvider>(actualServiceProvider =>
                             SameServiceProviderAs(
                                 actualServiceProvider,
@@ -120,11 +125,11 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
                             .Compile()
                             .Invoke(inputDependencyInjection.ServiceProvider)),
                         It.IsAny<string>()))
-                .Returns(returnedService);
+                .ReturnsAsync(returnedService);
 
             // when
             ISPALBase actualService =
-               this.dependencyInjectionService.GetService<ISPALBase>(
+               await this.dependencyInjectionService.GetServiceAsync<ISPALBase>(
                    inputDependencyInjection,
                    inputProperties.SpalId);
 
@@ -133,7 +138,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
             this.dependencyInjectionBroker.Verify(
                 broker =>
-                    broker.GetService<ISPALBase>(
+                    broker.GetServiceAsync<ISPALBase>(
                         It.Is<IServiceProvider>(actualServiceProvider =>
                             SameServiceProviderAs(
                                 actualServiceProvider,

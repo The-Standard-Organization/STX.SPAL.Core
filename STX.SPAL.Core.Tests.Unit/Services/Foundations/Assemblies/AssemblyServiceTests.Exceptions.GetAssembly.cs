@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
@@ -14,7 +15,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     {
         [Theory]
         [MemberData(nameof(AssemblyLoadDependencyExceptions))]
-        private void ShouldThrowDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
+        private async Task ShouldThrowDependencyExceptionOnLoadAssemblyIfExternalExceptionOccursAsync(
             Exception externalException)
         {
             // given
@@ -32,17 +33,19 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Setup(broker =>
-                    broker.GetAssembly(
+                    broker.GetAssemblyAsync(
                         It.Is<string>(actualAssemblyPath =>
                             actualAssemblyPath == someAssemblyPath)))
-                .Throws(externalException);
+                .ThrowsAsync(externalException);
 
             // when
-            Func<Assembly> getAssemblyFunction = () =>
-                this.assemblyService.GetAssembly(someAssemblyPath);
+            Func<Task<Assembly>> getAssemblyFunction =
+                () =>
+                    this.assemblyService.GetAssemblyAsync(someAssemblyPath)
+                        .AsTask();
 
             AssemblyDependencyException actualAssemblyDependencyException =
-                Assert.Throws<AssemblyDependencyException>(
+                await Assert.ThrowsAsync<AssemblyDependencyException>(
                     getAssemblyFunction);
 
             // then
@@ -51,7 +54,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Verify(broker =>
-                    broker.GetAssembly(It.IsAny<string>()),
+                    broker.GetAssemblyAsync(It.IsAny<string>()),
                 Times.Once);
 
             this.assemblyBroker.VerifyNoOtherCalls();
@@ -59,7 +62,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
         [Theory]
         [MemberData(nameof(AssemblyLoadValidationDependencyExceptions))]
-        private void ShouldThrowValidationDependencyExceptionOnLoadAssemblyIfExternalExceptionOccurs(
+        private async Task ShouldThrowValidationDependencyExceptionOnLoadAssemblyIfExternalExceptionOccursAsync(
             Exception externalException)
         {
             // given
@@ -77,17 +80,18 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Setup(broker =>
-                    broker.GetAssembly(
+                    broker.GetAssemblyAsync(
                         It.Is<string>(actualAssemblyPath =>
                             actualAssemblyPath == someAssemblyPath)))
                 .Throws(externalException);
 
             // when
-            Func<Assembly> getAssemblyFunction = () =>
-                this.assemblyService.GetAssembly(someAssemblyPath);
+            Func<Task<Assembly>> getAssemblyFunction = () =>
+                this.assemblyService.GetAssemblyAsync(someAssemblyPath)
+                    .AsTask();
 
             AssemblyValidationDependencyException actualAssemblyValidationDependencyException =
-                Assert.Throws<AssemblyValidationDependencyException>(
+                await Assert.ThrowsAsync<AssemblyValidationDependencyException>(
                     getAssemblyFunction);
 
             // then
@@ -96,7 +100,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Verify(broker =>
-                    broker.GetAssembly(It.IsAny<string>()),
+                    broker.GetAssemblyAsync(It.IsAny<string>()),
                 Times.Once);
 
             this.assemblyBroker.VerifyNoOtherCalls();
@@ -104,7 +108,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
         [Theory]
         [MemberData(nameof(AssemblyLoadServiceExceptions))]
-        private void ShouldThrowServiceExceptionOnLoadAssemblyIfExceptionOccurs(
+        private async Task ShouldThrowServiceExceptionOnLoadAssemblyIfExceptionOccursAsync(
             Exception externalException)
         {
             // given
@@ -122,17 +126,19 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Setup(broker =>
-                    broker.GetAssembly(
+                    broker.GetAssemblyAsync(
                         It.Is<string>(actualAssemblyPath =>
                             actualAssemblyPath == someAssemblyPath)))
                 .Throws(externalException);
 
             // when
-            Func<Assembly> getAssemblyFunction = () =>
-                this.assemblyService.GetAssembly(someAssemblyPath);
+            Func<Task<Assembly>> getAssemblyFunction =
+                () =>
+                    this.assemblyService.GetAssemblyAsync(someAssemblyPath)
+                        .AsTask();
 
             AssemblyServiceException actualAssemblyServiceException =
-                Assert.Throws<AssemblyServiceException>(
+                await Assert.ThrowsAsync<AssemblyServiceException>(
                     getAssemblyFunction);
 
             // then
@@ -141,7 +147,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Verify(broker =>
-                    broker.GetAssembly(It.IsAny<string>()),
+                    broker.GetAssemblyAsync(It.IsAny<string>()),
                 Times.Once);
 
             this.assemblyBroker.VerifyNoOtherCalls();

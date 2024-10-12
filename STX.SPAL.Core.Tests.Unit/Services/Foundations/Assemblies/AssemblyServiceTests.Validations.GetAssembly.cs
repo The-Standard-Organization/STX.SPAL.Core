@@ -4,6 +4,7 @@
 
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using STX.SPAL.Core.Models.Services.Foundations.Assemblies.Exceptions;
@@ -17,7 +18,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
         [InlineData("", "Value is required")]
         [InlineData(" ", "Value is required")]
         [InlineData("file", "Value is not a valid assembly path")]
-        private void ShouldThrowValidationExceptionIfInvalidAssemblyPath(
+        private async Task ShouldThrowValidationExceptionIfInvalidAssemblyPathAsync(
             string assemblyPath,
             string exceptionMessage)
         {
@@ -44,16 +45,18 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Setup(broker =>
-                    broker.GetAssembly(
+                    broker.GetAssemblyAsync(
                         It.Is<string>(actualAssemblyPath =>
                             actualAssemblyPath == inputAssemblyPath)));
 
             // when
-            Func<Assembly> getAssemblyFunction = () =>
-                this.assemblyService.GetAssembly(inputAssemblyPath);
+            Func<Task<Assembly>> getAssemblyFunction =
+                () =>
+                    this.assemblyService.GetAssemblyAsync(inputAssemblyPath)
+                        .AsTask();
 
             AssemblyValidationException actualAssemblyValidationException =
-                Assert.Throws<AssemblyValidationException>(
+                await Assert.ThrowsAsync<AssemblyValidationException>(
                     getAssemblyFunction);
 
             // then
@@ -62,7 +65,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker
                 .Verify(broker =>
-                    broker.GetAssembly(It.IsAny<string>()),
+                    broker.GetAssemblyAsync(It.IsAny<string>()),
                 Times.Never);
 
             this.assemblyBroker.VerifyNoOtherCalls();

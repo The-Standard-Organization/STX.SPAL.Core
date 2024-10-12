@@ -2,6 +2,7 @@
 // Copyright (c) The Standard Organization: A coalition of the Good-Hearted Engineers
 // ----------------------------------------------------------------------------------
 
+using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 
@@ -10,7 +11,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     public partial class AssemblyServiceTests
     {
         [Fact]
-        private void ShouldGetApplicationPathAssemblies()
+        private async Task ShouldGetApplicationPathAssembliesAsync()
         {
             // given
             string[] randomApplicationPathsAssemblies =
@@ -23,12 +24,12 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
                randomApplicationPathsAssemblies;
 
             this.assemblyBroker
-                .Setup(broker => broker.GetApplicationPathsAssemblies())
-                .Returns(returnedApplicationPathsAssemblies);
+                .Setup(broker => broker.GetApplicationPathsAssembliesAsync())
+                .ReturnsAsync(returnedApplicationPathsAssemblies);
 
             // when
             string[] actualApplicationPathsAssemblies =
-               this.assemblyService.GetApplicationPathsAssemblies();
+               await this.assemblyService.GetApplicationPathsAssembliesAsync();
 
             // then
             actualApplicationPathsAssemblies.Should()
@@ -36,7 +37,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
 
             this.assemblyBroker.Verify(
                 broker =>
-                    broker.GetApplicationPathsAssemblies(),
+                    broker.GetApplicationPathsAssembliesAsync(),
                 Times.Once);
 
             this.assemblyBroker.VerifyNoOtherCalls();
