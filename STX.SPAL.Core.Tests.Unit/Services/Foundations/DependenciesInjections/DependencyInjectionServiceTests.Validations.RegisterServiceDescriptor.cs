@@ -17,7 +17,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorValidationExceptions))]
-        private async Task ShouldThrowValidationExceptionIfInvalidParameters(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersAsync(
             DependencyInjection someDependencyInjection,
             Type spalInterfaceType,
             Type implementationType,
@@ -65,7 +65,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorWithSpalIdValidationExceptions))]
-        private async Task ShouldThrowValidationExceptionIfInvalidParametersWhenUsingSpalId(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersWhenUsingSpalIdAsync(
             DependencyInjection someDependencyInjection,
             Type spalInterfaceType,
             string spalId,

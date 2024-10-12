@@ -17,7 +17,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(BuildServiceProviderValidationExceptions))]
-        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnBuildServiceProvider(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnBuildServiceProviderAsync(
             DependencyInjection someDependencyInjection,
             Xeption exception)
         {

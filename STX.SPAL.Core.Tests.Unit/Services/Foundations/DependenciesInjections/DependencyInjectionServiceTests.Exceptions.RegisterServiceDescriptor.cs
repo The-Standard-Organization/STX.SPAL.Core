@@ -16,7 +16,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorValidationDependencyExceptions))]
-        private async Task ShouldThrowValidationDependencyExceptionOnRegisterServiceDescriptorIfExternalExceptionOccurs(
+        private async Task ShouldThrowValidationDependencyExceptionOnRegisterServiceDescriptorIfExternalExceptionOccursAsync(
             Exception externalException)
         {
             // given
@@ -76,7 +76,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         [Theory]
         [MemberData(nameof(RegisterServiceDescriptorServiceExceptions))]
-        private async Task ShouldThrowServiceExceptionOnRegisterServiceDescriptorIfExceptionOccurs(
+        private async Task ShouldThrowServiceExceptionOnRegisterServiceDescriptorIfExceptionOccursAsync(
             Exception externalException)
         {
             // given

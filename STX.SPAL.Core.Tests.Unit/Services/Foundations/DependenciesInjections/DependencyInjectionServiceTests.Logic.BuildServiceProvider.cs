@@ -13,7 +13,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     public partial class DependencyInjectionServiceTests
     {
         [Fact]
-        private async Task ShouldBuildServiceProvider()
+        private async Task ShouldBuildServiceProviderAsync()
         {
             // given
             dynamic randomProperties = CreateRandomProperties();

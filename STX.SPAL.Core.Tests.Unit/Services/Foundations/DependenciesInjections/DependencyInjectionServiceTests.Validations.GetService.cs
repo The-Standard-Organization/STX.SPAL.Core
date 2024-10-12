@@ -17,7 +17,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
     {
         [Theory]
         [MemberData(nameof(GetServiceValidationExceptions))]
-        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnGetService(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnGetServiceAsync(
             DependencyInjection someDependencyInjection,
             Xeption exception)
         {
@@ -58,7 +58,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.DependenciesInjections
 
         [Theory]
         [MemberData(nameof(GetServiceWithSpalValidationExceptions))]
-        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnGetServiceWithSpal(
+        private async Task ShouldThrowValidationExceptionIfInvalidParametersOnGetServiceWithSpalAsync(
             DependencyInjection someDependencyInjection,
             string someSpalId,
             Xeption exception)

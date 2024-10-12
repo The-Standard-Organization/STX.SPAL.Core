@@ -18,7 +18,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
         [InlineData("", "Value is required")]
         [InlineData(" ", "Value is required")]
         [InlineData("file", "Value is not a valid assembly path")]
-        private async Task ShouldThrowValidationExceptionIfInvalidAssemblyPath(
+        private async Task ShouldThrowValidationExceptionIfInvalidAssemblyPathAsync(
             string assemblyPath,
             string exceptionMessage)
         {

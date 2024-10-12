@@ -12,7 +12,7 @@ namespace STX.SPAL.Core.Tests.Unit.Services.Foundations.Assemblies
     public partial class AssemblyServiceTests
     {
         [Fact]
-        private async Task ShouldGetAssembly()
+        private async Task ShouldGetAssemblyAsync()
         {
             // given
             Assembly randomAssembly = CreateRandomAssembly();
